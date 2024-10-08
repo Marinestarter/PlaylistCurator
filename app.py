@@ -1,7 +1,7 @@
 import spotipy
 from spotify.models import playlist
 from spotipy.oauth2 import SpotifyOAuth
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request, redirect, url_for
 from spotipy import SpotifyOAuth
 
 app = Flask(__name__)
@@ -39,16 +39,19 @@ with app.app_context():
     db.create_all()
 
 
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+@app.route('/', methods=['GET','POST'])
+def playlist_input():
+    if request.method == 'POST':
+        playlist_link = request.form['playlist_link']
+        playlist_id = playlist_link.split('/')[-1].split('?')[0]
+        return redirect(url_for('get_playlist_songs', playlist_id=playlist_id))
+    return render_template('search.html')
 
 
-@app.route('/test')
-def get_playlist_songs():
-    playlist_id = '0wE7D85LoyR2KtHACnBZ3q'
+@app.route('/playlist/<playlist_id>')
+def get_playlist_songs(playlist_id):
     playlist = sp.playlist(playlist_id)
-    songs = []
+    playlist_songs = []
 
     for item in playlist['tracks']['items']:
         track = item['track']
@@ -67,14 +70,22 @@ def get_playlist_songs():
         else:
             song = existing_song
 
-        songs.append({
+        playlist_songs.append({
             'id': song.spotify_id,
             'name': song.name,
             'artists': song.artists,
             'album': song.album,
             'explicit': song.explicit
         })
-    return render_template('songs.html', songs=songs)
+    return render_template('songs.html', songs=playlist_songs)
+
+@app.route('/view_db')
+def view_db():
+    songs = Song.query.all()
+    output = ""
+    for song in songs:
+        output += f"ID: {song.id}, Name:    {song.name}, Artists: {song.artists}, Album: {song.album}, Explicit: {song.explicit}\n"
+    return f"<pre>{output}</pre>"
 
 
 if __name__ == '__main__':
