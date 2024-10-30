@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spotify API Tester</title>
+    <style>
+        body { 
+            max-width: 800px; 
+            margin: 20px auto; 
+            padding: 0 20px; 
+            font-family: sans-serif; 
+        }
+        .error { color: red; }
+        .success { color: green; }
+        button { margin: 5px; padding: 5px 10px; }
+        .playlist { 
+            cursor: pointer; 
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+        }
+        .playlist:hover {
+            background: #f0f0f0;
+        }
+        .selected {
+            background: #e0e0e0;
+        }
+        #tracks div {
+            margin: 5px 0;
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        .explicit-label {
+            background: red;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spotify API Tester</h1>
+    
+    <div id="user"></div>
+    <hr>
+    
+    <div>
+        <h2>Your Playlists</h2>
+        <div id="playlists"></div>
+    </div>
+    
+    <div>
+        <h2>Selected Playlist</h2>
+        <div id="selectedPlaylist"></div>
+        <div id="tracks"></div>
+    </div>
+
+    <script>
+        // Fetch and display user info
+        fetch('/api/user')
+            .then(response => response.json())
+            .then(user => {
+                document.getElementById('user').innerHTML = `
+                    <h3>Welcome, ${user.display_name}</h3>
+                `;
+            })
+            .catch(error => {
+                document.getElementById('user').innerHTML = `
+                    <div class="error">Error loading user: ${error}</div>
+                `;
+            });
+
+        // Fetch and display playlists
+        fetch('/api/playlists')
+            .then(response => response.json())
+            .then(playlists => {
+                const playlistsDiv = document.getElementById('playlists');
+                playlists.forEach(playlist => {
+                    const div = document.createElement('div');
+                    div.className = 'playlist';
+                    div.innerHTML = playlist.name;
+                    div.onclick = () => loadPlaylist(playlist);
+                    playlistsDiv.appendChild(div);
+                });
+            })
+            .catch(error => {
+                document.getElementById('playlists').innerHTML = `
+                    <div class="error">Error loading playlists: ${error}</div>
+                `;
+            });
+
+        function loadPlaylist(playlist) {
+            // Update selected playlist UI
+            document.querySelectorAll('.playlist').forEach(div => div.classList.remove('selected'));
+            event.target.classList.add('selected');
+            
+            const selectedDiv = document.getElementById('selectedPlaylist');
+            selectedDiv.innerHTML = `
+                <button onclick="convertPlaylist('${playlist.id}', true)">Convert to Clean</button>
+                <button onclick="convertPlaylist('${playlist.id}', false)">Convert to Explicit</button>
+            `;
+
+            // Load tracks
+            fetch(`/api/playlists/${playlist.id}/tracks`)
+                .then(response => response.json())
+                .then(tracks => {
+                    const tracksDiv = document.getElementById('tracks');
+                    tracksDiv.innerHTML = '<h3>Tracks:</h3>';
+                    tracks.forEach(track => {
+                        const div = document.createElement('div');
+                        div.innerHTML = `
+                            ${track.name} - ${track.artists[0].name}
+                            ${track.explicit ? '<span class="explicit-label">Explicit</span>' : ''}
+                        `;
+                        tracksDiv.appendChild(div);
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('tracks').innerHTML = `
+                        <div class="error">Error loading tracks: ${error}</div>
+                    `;
+                });
+        }
+
+        function convertPlaylist(playlistId, toClean) {
+            fetch(`/api/playlist/${playlistId}/convert?to_clean=${toClean}`, {
+                method: 'POST'
+            })
+                .then(response => response.json())
+                .then(result => {
+                    const tracksDiv = document.getElementById('tracks');
+                    tracksDiv.innerHTML += `
+                        <div class="success">
+                            <h3>Conversion Results:</h3>
+                            <p>Original clean tracks: ${result.num_original_clean}</p>
+                            <p>Converted tracks found: ${result.num_clean_found}</p>
+                            <p>Missing tracks: ${result.num_still_missing.length}</p>
+                        </div>
+                    `;
+                })
+                .catch(error => {
+                    document.getElementById('tracks').innerHTML += `
+                        <div class="error">Error converting playlist: ${error}</div>
+                    `;
+                });
+        }
+    </script>
+</body>
+</html>
