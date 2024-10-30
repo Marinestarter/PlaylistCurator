@@ -1,14 +1,15 @@
 #newMusicCleaner/spotify_app/services/spotify_service.py
 import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-
-CLIENT_ID = 'be72da4625c24b18af5e51e8cc509f07'
-CLIENT_SECRET = 'ff22df8effea4e79ae41b3ccc48ab7a8'
-
-client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
-sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 
 
+class SpotifyService:
+    def __init__(self):
+        self._spotify = None
+
+    def spotify(self) -> spotipy.Spotify:
+        if self._spotify is None:
+            self._spotify = spotipy.Spotify(auth_manager=SpotifyOAuth())
 def transform_track(item: dict) -> dict:
     track = item['track']
     return {
