@@ -1,150 +1,151 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Spotify API Tester</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Playlist Manager</title>
     <style>
-        body { 
-            max-width: 800px; 
-            margin: 20px auto; 
-            padding: 0 20px; 
-            font-family: sans-serif; 
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        .error { color: red; }
-        .success { color: green; }
-        button { margin: 5px; padding: 5px 10px; }
-        .playlist { 
-            cursor: pointer; 
+        .playlist {
+            border: 1px solid #ccc;
             padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
+            margin: 10px 0;
+            cursor: pointer;
         }
-        .playlist:hover {
-            background: #f0f0f0;
-        }
-        .selected {
-            background: #e0e0e0;
-        }
-        #tracks div {
-            margin: 5px 0;
+        .track {
             padding: 5px;
-            border-bottom: 1px solid #eee;
+            margin: 5px 0;
+            background-color: #f5f5f5;
         }
-        .explicit-label {
-            background: red;
-            color: white;
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-size: 12px;
-            margin-left: 10px;
+        .hidden {
+            display: none;
+        }
+        .explicit {
+            color: red;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <h1>Spotify API Tester</h1>
+    <h1>Spotify Playlist Manager</h1>
     
-    <div id="user"></div>
-    <hr>
-    
-    <div>
-        <h2>Your Playlists</h2>
-        <div id="playlists"></div>
+    <div id="user-info">
+        <h2>User Information</h2>
+        <p>Loading user info...</p>
     </div>
-    
-    <div>
-        <h2>Selected Playlist</h2>
-        <div id="selectedPlaylist"></div>
-        <div id="tracks"></div>
+
+    <div id="playlists">
+        <h2>Your Playlists</h2>
+        <div id="playlist-list"></div>
+    </div>
+
+    <div id="tracks" class="hidden">
+        <h2>Playlist Tracks</h2>
+        <button onclick="convertCurrentPlaylist(true)">Convert to Clean</button>
+        <button onclick="convertCurrentPlaylist(false)">Convert to Explicit</button>
+        <div id="track-list"></div>
+    </div>
+
+    <div id="conversion-result" class="hidden">
+        <h2>Most Recent Conversion Result</h2>
+        <div id="conversion-details"></div>
     </div>
 
     <script>
-        // Fetch and display user info
-        fetch('/api/user')
-            .then(response => response.json())
-            .then(user => {
-                document.getElementById('user').innerHTML = `
-                    <h3>Welcome, ${user.display_name}</h3>
-                `;
-            })
-            .catch(error => {
-                document.getElementById('user').innerHTML = `
-                    <div class="error">Error loading user: ${error}</div>
-                `;
-            });
+        let currentPlaylistId = null;
 
-        // Fetch and display playlists
-        fetch('/api/playlists')
-            .then(response => response.json())
-            .then(playlists => {
-                const playlistsDiv = document.getElementById('playlists');
-                playlists.forEach(playlist => {
-                    const div = document.createElement('div');
-                    div.className = 'playlist';
-                    div.innerHTML = playlist.name;
-                    div.onclick = () => loadPlaylist(playlist);
-                    playlistsDiv.appendChild(div);
-                });
-            })
-            .catch(error => {
-                document.getElementById('playlists').innerHTML = `
-                    <div class="error">Error loading playlists: ${error}</div>
+        // Fetch user info
+        async function fetchUserInfo() {
+            try {
+                const response = await fetch('/api/user');
+                const data = await response.json();
+                document.getElementById('user-info').innerHTML = `
+                    <h2>Welcome, ${data.display_name}</h2>
+                    <p>Spotify ID: ${data.id}</p>
                 `;
-            });
-
-        function loadPlaylist(playlist) {
-            // Update selected playlist UI
-            document.querySelectorAll('.playlist').forEach(div => div.classList.remove('selected'));
-            event.target.classList.add('selected');
-            
-            const selectedDiv = document.getElementById('selectedPlaylist');
-            selectedDiv.innerHTML = `
-                <button onclick="convertPlaylist('${playlist.id}', true)">Convert to Clean</button>
-                <button onclick="convertPlaylist('${playlist.id}', false)">Convert to Explicit</button>
-            `;
-
-            // Load tracks
-            fetch(`/api/playlists/${playlist.id}/tracks`)
-                .then(response => response.json())
-                .then(tracks => {
-                    const tracksDiv = document.getElementById('tracks');
-                    tracksDiv.innerHTML = '<h3>Tracks:</h3>';
-                    tracks.forEach(track => {
-                        const div = document.createElement('div');
-                        div.innerHTML = `
-                            ${track.name} - ${track.artists[0].name}
-                            ${track.explicit ? '<span class="explicit-label">Explicit</span>' : ''}
-                        `;
-                        tracksDiv.appendChild(div);
-                    });
-                })
-                .catch(error => {
-                    document.getElementById('tracks').innerHTML = `
-                        <div class="error">Error loading tracks: ${error}</div>
-                    `;
-                });
+            } catch (error) {
+                console.error('Error fetching user info:', error);
+            }
         }
 
-        function convertPlaylist(playlistId, toClean) {
-            fetch(`/api/playlist/${playlistId}/convert?to_clean=${toClean}`, {
-                method: 'POST'
-            })
-                .then(response => response.json())
-                .then(result => {
-                    const tracksDiv = document.getElementById('tracks');
-                    tracksDiv.innerHTML += `
-                        <div class="success">
-                            <h3>Conversion Results:</h3>
-                            <p>Original clean tracks: ${result.num_original_clean}</p>
-                            <p>Converted tracks found: ${result.num_clean_found}</p>
-                            <p>Missing tracks: ${result.num_still_missing.length}</p>
-                        </div>
-                    `;
-                })
-                .catch(error => {
-                    document.getElementById('tracks').innerHTML += `
-                        <div class="error">Error converting playlist: ${error}</div>
-                    `;
-                });
+        // Fetch playlists
+        async function fetchPlaylists() {
+            try {
+                const response = await fetch('/api/playlists');
+                const playlists = await response.json();
+                const playlistList = document.getElementById('playlist-list');
+                playlistList.innerHTML = playlists.map(playlist => `
+                    <div class="playlist" onclick="showTracks('${playlist.id}')">
+                        <h3>${playlist.name}</h3>
+                        <a href="${playlist.external_urls.spotify}" target="_blank">Open in Spotify</a>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error fetching playlists:', error);
+            }
         }
+
+        // Show tracks for a playlist
+        async function showTracks(playlistId) {
+            currentPlaylistId = playlistId;
+            try {
+                const response = await fetch(`/api/playlists/${playlistId}/tracks`);
+                const tracks = await response.json();
+                const trackList = document.getElementById('track-list');
+                document.getElementById('tracks').classList.remove('hidden');
+                
+                trackList.innerHTML = tracks.map(track => `
+                    <div class="track ${track.explicit ? 'explicit' : ''}">
+                        <strong>${track.name}</strong> by 
+                        ${track.artists.map(artist => artist.name).join(', ')}
+                        ${track.explicit ? '(Explicit)' : ''}
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error fetching tracks:', error);
+            }
+        }
+
+        // Convert playlist
+        async function convertCurrentPlaylist(toClean) {
+            if (!currentPlaylistId) return;
+
+            try {
+                const response = await fetch(`/api/playlist/${currentPlaylistId}/convert?to_clean=${toClean}`, {
+                    method: 'POST'
+                });
+                const result = await response.json();
+                
+                const conversionDiv = document.getElementById('conversion-result');
+                conversionDiv.classList.remove('hidden');
+                
+                document.getElementById('conversion-details').innerHTML = `
+                    <p>New Playlist ID: ${result.playlist_id}</p>
+                    <p>Original Clean Tracks: ${result.num_original_clean}</p>
+                    <p>Clean Matches Found: ${result.num_clean_found}</p>
+                    <h3>Missing Songs:</h3>
+                    <ul>
+                        ${result.num_still_missing.map(song => `
+                            <li>
+                                ${song.name} - 
+                                <a href="${song.query_url}" target="_blank">Search on Spotify</a>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+            } catch (error) {
+                console.error('Error converting playlist:', error);
+            }
+        }
+
+        // Initial load
+        fetchUserInfo();
+        fetchPlaylists();
     </script>
 </body>
 </html>

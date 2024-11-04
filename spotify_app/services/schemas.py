@@ -21,6 +21,7 @@ class PlaylistResponse(Schema):
     id: str
     name: str
     tracks: Optional[List[TrackResponse]]
+    external_urls: Dict[str, str]
 
 
 class UserResponse(Schema):

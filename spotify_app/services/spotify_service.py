@@ -1,80 +1,173 @@
-#newMusicCleaner/spotify_app/services/spotify_service.py
+from typing import Dict, List
+from urllib.parse import quote
+
 import spotipy
+import logging
+from django.core import cache
+from fuzzywuzzy import fuzz
 from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
+
+logger = logging.getLogger(__name__)
 
 
 class SpotifyService:
     def __init__(self):
         self._spotify = None
+        self._user = None
 
+    @property
     def spotify(self) -> spotipy.Spotify:
         if self._spotify is None:
-            self._spotify = spotipy.Spotify(auth_manager=SpotifyOAuth())
-def transform_track(item: dict) -> dict:
-    track = item['track']
-    return {
-        'name': track['name'],
-        'artists': [artist['name'] for artist in track['artists']],
-        'album': track['album']['name'],
-        'explicit': track['explicit'],
-        'id': track['id']
-    }
+            self._spotify = spotipy.Spotify(auth_manager=SpotifyOAuth(
+                client_id='be72da4625c24b18af5e51e8cc509f07',
+                client_secret='ff22df8effea4e79ae41b3ccc48ab7a8',
+                redirect_uri='http://localhost:8000/spotify/callback/',
+                scope="playlist-modify-public playlist-modify-private playlist-read-private"
+            ))
+        return self._spotify
 
+    def get_user(self) -> Dict:
+        """Get current user information"""
+        if self._user is None:
+            try:
+                self._user = self.spotify.current_user()
+            except Exception as e:
+                print(f"Failed to get user: {e}")
+                raise
+        return self._user
 
-def get_playlist_tracks(playlist_id: str) -> list[dict]:
-    response = sp.playlist_items(
-        playlist_id,
-        fields='items(track(name,artists(name),album(name),explicit,id)),total'
-    )
-    results = [transform_track(item) for item in response["items"]]
+    def get_playlists(self) -> List[Dict]:
+        try:
+            results = self.spotify.current_user_playlists()
+            playlists = []
 
-    # subsequently runs until it hits the user-defined limit or has read all songs in the library
-    while len(results) < response["total"]:
-        response = sp.playlist_items(
-            playlist_id,
-            fields='items(track(name,artists(name),album(name),explicit,id)),total',
-            offset=len(results)
-        )
-        results.extend(transform_track(item) for item in response["items"])
-    return results
+            # Process each playlist in the results
+            for playlist in results['items']:  # Access 'items' from results
+                playlist_data = {
+                    'id': playlist['id'],
+                    'name': playlist['name'],
+                    'external_urls': playlist['external_urls'],
+                    'tracks': None  # Matches the Optional[List[TrackResponse]] in schema
+                }
+                playlists.append(playlist_data)
 
+            return playlists
+        except Exception as e:
+            logger.error(f"Failed to fetch playlists: {e}")
+            raise
 
-def find_clean_ver(tracks: list[dict]) -> list[dict]:
-    clean_tracks = []
+    def get_playlist_tracks(self, playlist_id: str) -> List[Dict]:
+        try:
+            tracks = []
+            results = self.spotify.playlist_items(playlist_id)
 
-    #Iterate through each track
-    for track in tracks:
+            while results:
+                # Appends tracks if they exist in items
+                for item in results.get('items', []):
+                    track = item.get('track')
+                    if track:
+                        tracks.append(track)
 
-        #Checks if the current track is explicit
-        if track['explicit']:
-            track_name = track['name']
-            artist_name = track['artists'][0]
-            query = f'track:{track_name} artist:{artist_name}'
+                results = self.spotify.next(results) if results.get('next') else None
 
-            #Search Spotify by track name and primary artist
-            results = sp.search(q=query, type='track', limit=10)
+        except Exception as e:
+            print(f"Failed to get tracks: {e}")
+            raise
+        return tracks
 
-            #Iterates through each search result for a viable clean version
-            for song in results['tracks']['items']:
-                if (not song['explicit'] and
-                        track['name'] == song['name'] and
-                        track['id'] != song['id'] and
-                        track['artists'][0].lower() == song['artists'][0]['name'].lower()):
-                    # Creates an new object containing key info about clean alternative
-                    clean_song = {
-                        'name': song['name'],
-                        'artists': [artist['name'] for artist in song['artists']],
-                        'album': song['album']['name'],
-                        'explicit': song['explicit'],
-                        'id': song['id']
-                    }
-                    #Adds it to the clean version playlist
-                    clean_tracks.append(clean_song)
-                    break
-        #If song is not tagged as explicit, adds it back to the playlist
-        else:
-            clean_tracks.append(track)
+    def contain_same_artists(self, first: Dict, second: Dict) -> bool:
+        """Check if two tracks have the same artists"""
+        if len(first['artists']) != len(second['artists']):
+            return False
 
-    for stuff in clean_tracks:
-        print(stuff, "\n")
-    return clean_tracks
+        for i in range(len(first['artists'])):
+            if first['artists'][i]['name'] != second['artists'][i]['name']:
+                return False
+        return True
+
+    def search_for_track(self, query: str) -> List[Dict]:
+        """search for tracks matching query"""
+        try:
+            results = self.spotify.search(q=query, type='track', limit=50)
+            return results['tracks']['items']
+        except Exception as e:
+            print(f"Failure to search for track: {e}")
+            raise
+
+    def convert_playlist(self, playlist_id: str, to_clean: bool = True) -> Dict:
+        try:
+            original_playlist = self.spotify.playlist(playlist_id)
+            tracks = self.get_playlist_tracks(playlist_id)
+
+            clean_tracks_uris = []
+            tracks_to_convert = []
+
+            for track in tracks:
+                if not track['explicit']:
+                    clean_tracks_uris.append(track['uri'])
+
+                else:
+                    tracks_to_convert.append({
+                        'query': f"{track['name']} {track['artists'][0]['name']}",
+                        'name': track['name'],
+                        'artists': track['artists'],
+                        'uri': track['uri'],
+                        'link': track['external_urls']['spotify']
+                    })
+
+            converted_tracks_uris = []
+            remaining_songs = []
+            potential_matches = {}
+
+            for track in tracks_to_convert:
+                query = track['query'].replace('#', '').strip()
+                search_results = self.search_for_track(query)
+
+                found_match = False
+                for result in search_results:
+                    if not result['explicit'] and self.contain_same_artists(track, result):
+                        similarity = fuzz.ratio(result['name'], track['name'])
+                        if similarity == 100:
+                            found_match = True
+                            converted_tracks_uris.append(result['uri'])
+                            break
+                        elif similarity > 1:
+                            if track['name'] not in potential_matches:
+                                potential_matches[track['name']] = []
+                            potential_matches[track['name']].append({
+                                'name': result['name'],
+                                'link': result['external_urls']['spotify'],
+                                'uri': result['uri'],
+                                'original_track_uri': track['uri'],
+                                'original_track_link': track['link']
+                            })
+                if not found_match:
+                    remaining_songs.append({
+                        'name': track['name'],
+                        'query_url': f"https://open.spotify.com/search/{quote(track['query'])}"
+                    })
+
+            user = self.get_user()
+            playlist_name = f"{original_playlist['name']} ({'Cleaned' if to_clean else 'explicit'})"
+            new_playlist = self.spotify.user_playlist_create(
+                user['id'],
+                playlist_name,
+                public=True
+            )
+
+            all_tracks = clean_tracks_uris + converted_tracks_uris
+            for i in range(0, len(all_tracks), 100):
+                batch = all_tracks[i:i + 100]
+                if batch:
+                    self.spotify.playlist_add_items(new_playlist['id'], batch)
+            return {
+                'playlist_id': new_playlist['id'],
+                'num_original_clean': len(clean_tracks_uris),
+                'num_clean_found': len(converted_tracks_uris),
+                'num_still_missing': remaining_songs,
+                'potential_matches': potential_matches
+            }
+
+        except Exception as e:
+            logging.error(f"Failed to convert playlist: {e}")
+            raise

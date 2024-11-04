@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ninja',
-    'corsheaders',  # Add this line
+    'corsheaders',
+    'spotify_app.apps.SpotifyConfig',
+    "youtube_app.apps.YoutubeAppConfig"  # Add this line
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -134,3 +136,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SP_CLIENT_ID = 'be72da4625c24b18af5e51e8cc509f07'
 SP_CLIENT_SECRET = 'ff22df8effea4e79ae41b3ccc48ab7a8'
 SP_REDIRECT_URI = 'http://localhost:8000/spotify/callback/'
+
+#
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+        'LOCATION':  '127.0.0.1:11211',
+    }
+}
