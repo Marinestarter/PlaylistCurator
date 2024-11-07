@@ -1,3 +1,4 @@
+from tokenize import String
 from typing import Dict, List
 from urllib.parse import quote
 
@@ -136,6 +137,7 @@ class SpotifyService:
                                 potential_matches[track['name']] = []
                             potential_matches[track['name']].append({
                                 'name': result['name'],
+                                'artists': result['artists'][0]['name'],
                                 'link': result['external_urls']['spotify'],
                                 'uri': result['uri'],
                                 'original_track_uri': track['uri'],
@@ -144,6 +146,7 @@ class SpotifyService:
                 if not found_match:
                     remaining_songs.append({
                         'name': track['name'],
+                        'artists': track['artists'][0]['name'],
                         'query_url': f"https://open.spotify.com/search/{quote(track['query'])}"
                     })
 
@@ -164,10 +167,19 @@ class SpotifyService:
                 'playlist_id': new_playlist['id'],
                 'num_original_clean': len(clean_tracks_uris),
                 'num_clean_found': len(converted_tracks_uris),
-                'num_still_missing': remaining_songs,
+                'num_still_missing': len(remaining_songs),
+                'still_missing': remaining_songs,
                 'potential_matches': potential_matches
             }
 
         except Exception as e:
             logging.error(f"Failed to convert playlist: {e}")
             raise
+
+    def add_additional_songs(self, playlist_id: str, song_uris: List) -> str:
+        try:
+            if song_uris:
+                self.spotify.playlist_add_items(playlist_id, song_uris)
+                return "successfully added!"
+        except Exception as e:
+            logging.error(f"Failed to add songs: {e}")

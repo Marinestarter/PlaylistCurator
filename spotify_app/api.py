@@ -2,7 +2,7 @@ from typing import List
 
 from spotify_app.services.spotify_service import SpotifyService
 from ninja import NinjaAPI, Schema
-from spotify_app.services.schemas import(
+from spotify_app.services.schemas import (
     PlaylistResponse,
     PlaylistConversionResponse,
     UserResponse,
@@ -27,6 +27,13 @@ def get_playlists(request):
 def get_playlist_tracks(request, playlist_id: str):
     return spotify_service.get_playlist_tracks(playlist_id)
 
+
 @api.post("/playlist/{playlist_id}/convert")
 def convert_playlist(request, playlist_id: str, to_clean: bool = True) -> PlaylistConversionResponse:
-    return spotify_service.convert_playlist(playlist_id, to_clean)
+    result = spotify_service.convert_playlist(playlist_id, to_clean)
+    return PlaylistConversionResponse(**result)
+
+
+@api.post("/playlist/{playlist_id}/additionalSongs")
+def missing_songs(request, playlist_id: str, song_uris: List[str]) -> str:
+    return spotify_service.add_additional_songs(playlist_id, song_uris)

@@ -17,6 +17,8 @@ sp_oauth = oauth2.SpotifyOAuth(
     scope=SCOPE,
     cache_path=CACHE
 )
+
+
 def spotify_login(request):
     sp_oauth = SpotifyOAuth(
         client_id=SPOTIPY_CLIENT_ID,
@@ -26,6 +28,7 @@ def spotify_login(request):
     )
     auth_url = sp_oauth.get_authorize_url()
     return HttpResponseRedirect(auth_url)
+
 
 def spotify_callback(request):
     code = request.GET.get('code')
@@ -45,6 +48,8 @@ def spotify_callback(request):
             return JsonResponse({'error': 'Failed to get access token'})
 
     return JsonResponse({'error': 'Authorization failed'})
+
+
 def index(request):
     access_token = ""
     token_info = sp_oauth.get_cached_token()
@@ -78,5 +83,7 @@ def htmlForLoginButton():
 def getSPOauthURI():
     auth_url = sp_oauth.get_authorize_url()
     return auth_url
+
+
 def spotify_interface(request):
     return render(request, 'index.html')
