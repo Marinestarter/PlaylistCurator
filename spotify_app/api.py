@@ -1,13 +1,14 @@
 from typing import List
 
-from spotify_app.services.spotify_service import SpotifyService
-from ninja import NinjaAPI, Schema
+from ninja import NinjaAPI
+
 from spotify_app.services.schemas import (
     PlaylistResponse,
     PlaylistConversionResponse,
     UserResponse,
     TrackResponse
 )
+from spotify_app.services.spotify_service import SpotifyService
 
 api = NinjaAPI()
 spotify_service = SpotifyService()
@@ -29,8 +30,8 @@ def get_playlist_tracks(request, playlist_id: str):
 
 
 @api.post("/playlist/{playlist_id}/convert")
-def convert_playlist(request, playlist_id: str, to_clean: bool = True) -> PlaylistConversionResponse:
-    result = spotify_service.convert_playlist(playlist_id, to_clean)
+def convert_playlist(request, playlist_id: str) -> PlaylistConversionResponse:
+    result = spotify_service.convert_playlist(playlist_id)
     return PlaylistConversionResponse(**result)
 
 
