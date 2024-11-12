@@ -1,15 +1,164 @@
 {% extends 'base.html' %}
+{% block title %}Spotify Converter{%endblock%}
 
-    {% block title %}Dashboard{% endblock %}
 {% block body %}
-    <div class="container mt-5 tra">
-        <h1 align="center">Dashboard</h1>
+    <nav class="navbar navbar-dark bg-dark mb-4">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">Spotify Playlist Manager</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="user-info" class="mb-4">
+            <h2 class="h4">User Information</h2>
+            <p class="text-muted">Loading user info...</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div id="playlists" class="mb-4">
+                    <h2 class="h4 mb-3">Your Playlists</h2>
+                    <div id="playlist-list"></div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div id="tracks" class="hidden mb-4">
+                    <h2 class="h4 mb-3">Playlist Tracks</h2>
+                    <button class="btn btn-primary mb-3" onclick="convertCurrentPlaylist()">Convert to Clean</button>
+                    <div id="track-list" class="list-group"></div>
+                </div>
+
+                <div id="conversion-result" class="hidden">
+                    <h2 class="h4 mb-3">Most Recent Conversion Result</h2>
+                    <div id="conversion-details" class="card card-body"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
-        <form method="POST">
-            <div class="d-grid gap-2 col-6 mx-auto">
-            <a href="/" class="btn btn-success">New Expense</a>
-            <a href="/transaction_record" class="btn btn-success">Expense Record</a>
-            </div>
-        </form>
-{% endblock %}
+    <!-- Add Bootstrap JS and its dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        let currentPlaylistId = null;
+
+        async function fetchUserInfo() {
+            try {
+                const response = await fetch('/api/user');
+                const data = await response.json();
+                document.getElementById('user-info').innerHTML = `
+                    <h2 class="h4">Welcome, ${data.display_name}</h2>
+                    <p class="text-muted">Spotify ID: ${data.id}</p>
+                `;
+            } catch (error) {
+                console.error('Error fetching user info:', error);
+            }
+        }
+
+        async function fetchPlaylists() {
+            try {
+                const response = await fetch('/api/playlists');
+                const playlists = await response.json();
+                const playlistList = document.getElementById('playlist-list');
+                playlistList.innerHTML = playlists.map(playlist => `
+                    <div class="card mb-2 playlist-card" onclick="showTracks('${playlist.id}')">
+                        <div class="card-body">
+                            <h3 class="h6 mb-2">${playlist.name}</h3>
+                            <a href="${playlist.external_urls.spotify}" 
+                               class="btn btn-sm btn-outline-secondary" 
+                               target="_blank"
+                               onclick="event.stopPropagation()">
+                                Open in Spotify
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error fetching playlists:', error);
+            }
+        }
+
+        async function showTracks(playlistId) {
+            currentPlaylistId = playlistId;
+            try {
+                const response = await fetch(`/api/playlists/${playlistId}/tracks`);
+                const tracks = await response.json();
+                const trackList = document.getElementById('track-list');
+                document.getElementById('tracks').classList.remove('hidden');
+                
+                trackList.innerHTML = tracks.map(track => `
+                    <div class="list-group-item ${track.explicit ? 'bg-light' : ''}">
+                        <strong>${track.name}</strong> by 
+                        ${track.artists.map(artist => artist.name).join(', ')}
+                        ${track.explicit ? 
+                            '<span class="badge bg-warning text-dark ms-2">Explicit</span>' : ''}
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error fetching tracks:', error);
+            }
+        }
+
+        async function convertCurrentPlaylist() {
+            if (!currentPlaylistId) return;
+
+            try {
+                const response = await fetch(`/api/playlist/${currentPlaylistId}/convert?to_clean=true`, {
+                    method: 'POST'
+                });
+                const result = await response.json();
+                
+                const conversionDiv = document.getElementById('conversion-result');
+                conversionDiv.classList.remove('hidden');
+                
+                document.getElementById('conversion-details').innerHTML = `
+                    <div class="alert alert-success mb-3">
+                        <h4 class="alert-heading">Conversion Complete!</h4>
+                        <p class="mb-0">New Playlist ID: ${result.playlist_id}</p>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">${result.num_original_clean}</h5>
+                                    <p class="card-text">Original Clean Tracks</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">${result.num_clean_found}</h5>
+                                    <p class="card-text">Clean Matches Found</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="h5 mb-3">Missing Songs:</h3>
+                    <div class="list-group">
+                        ${result.num_still_missing.map(song => `
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>${song.name}</span>
+                                    <a href="${song.query_url}" 
+                                       class="btn btn-sm btn-outline-primary" 
+                                       target="_blank">
+                                        Search on Spotify
+                                    </a>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error converting playlist:', error);
+            }
+        }
+
+        // Initial load
+        fetchUserInfo();
+        fetchPlaylists();
+    </script>
+    {% endblock %}
+</html>
