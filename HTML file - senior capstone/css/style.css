@@ -1,0 +1,118 @@
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+    font-family: "Slabo 27px", serif;
+    font-weight: 400;
+    font-style: normal;
+    background-color: #ffffff;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    width: 100vw;
+    height: 5vw;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: lightcoral;
+    /*gap: 20px;*/
+}
+
+div.logo {
+    width: 5%;
+    height: 75%;
+    background-image: url('../imgs/music.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+nav input[type=text] {
+    width: 400px;
+    display: flex;
+    background-color: white;
+    border: 2px solid black;
+    color: #111;
+    font-size: 15px;
+    box-shadow: 3px 1px 0px 2px, 0px -1px 0px 2px rgba(0, 0, 0, 0.62);
+    height: 40px;
+}
+
+nav a {
+    color: #2D2D2D;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+section.all {
+    width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+section.one {
+    width: 100vw;
+    height: 50vw;
+    background-color: #2D2D2D;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+section.one>div.rect {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    background-size: cover;
+    background-position: center;
+}
+
+div.rect#one {
+    display: flex;
+    background-color: pink;
+    background-image: url('../imgs/wj5fhfmcbifb1.jpg');
+    transform: rotateY(180deg);
+}
+
+div.rect#two {
+    display: flex;
+    background-color: red;
+    background-image: url('../imgs/Academy-Museum-of-Motion-Pictures-3rd-Annual-Gala-Presented-By-Ro.jpg');
+    
+}
+
+div.rect#three{
+    display: flex;
+    background-color: blueviolet;
+    background-image: url('../imgs/72482a2bc7bc3577e4040ce65e64cd55.webp');
+}
+
+div.rect#four {
+    display: flex;
+    background-color: orange;
+    background-image: url('../imgs/Chapell-Roan.webp');
+}
+
+div.rect#five {
+    display: flex;
+    background-color: lightgreen;
+    background-image: url('../imgs/Taylor-Swift-Reputation-081824-01-9c2cc19b358f42fbb8ae582b8e12c027.jpg');
+}
+
+section.two {
+    width: 100vw;
+    height: 50vw;
+    background-color: #2D2D2D;
+}
