@@ -34,7 +34,7 @@ nav {
 div.logo {
     width: 5%;
     height: 75%;
-    background-image: url('../imgs/music.png');
+    background-image: url('../imgs/musicLogo.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -82,21 +82,21 @@ section.one>div.rect {
 div.rect#one {
     display: flex;
     background-color: pink;
-    background-image: url('../imgs/wj5fhfmcbifb1.jpg');
+    background-image: url('../imgs/billie_eilish.jpg');
     transform: rotateY(180deg);
 }
 
 div.rect#two {
     display: flex;
     background-color: red;
-    background-image: url('../imgs/Academy-Museum-of-Motion-Pictures-3rd-Annual-Gala-Presented-By-Ro.jpg');
-    
+    background-image: url('../imgs/theweeknd.jpg')
+
 }
 
 div.rect#three{
     display: flex;
     background-color: blueviolet;
-    background-image: url('../imgs/72482a2bc7bc3577e4040ce65e64cd55.webp');
+    background-image: url('../imgs/kendrick_lamar.webp');
 }
 
 div.rect#four {
@@ -108,11 +108,42 @@ div.rect#four {
 div.rect#five {
     display: flex;
     background-color: lightgreen;
-    background-image: url('../imgs/Taylor-Swift-Reputation-081824-01-9c2cc19b358f42fbb8ae582b8e12c027.jpg');
+    background-image: url('../imgs/taylor_swift.jpg')
 }
 
 section.two {
     width: 100vw;
     height: 50vw;
     background-color: #2D2D2D;
+    display: flex;
 }
+
+div.rect1#one {
+    width:30%;
+    height: 100%;
+    padding: 0vw;
+    margin: 2.5vw;
+}
+
+div.rect1#two {
+    width:35%;
+    height: 100%;
+}
+div.list-group#track-list {
+    line-height: 2vw;
+}
+
+div.mb-4{
+    color: white;
+    line-height: 5px;
+}
+
+div.h4{
+    font-size: 36px;
+}
+
+div.rect2#three {
+    width: 35%;
+    height: 100%;
+}
+

@@ -8,7 +8,7 @@ from spotify_app.services.schemas import (
     UserResponse,
     TrackResponse
 )
-from spotify_app.services.spotify_service import SpotifyService
+from spotify_app.spotify_service import SpotifyService
 
 api = NinjaAPI()
 spotify_service = SpotifyService()
@@ -21,7 +21,7 @@ def get_user(request):
 
 @api.get("/playlists", response=List[PlaylistResponse])
 def get_playlists(request):
-    return spotify_service.get_playlists()
+    return spotify_service.get_playlists()  
 
 
 @api.get("/playlists/{playlist_id}/tracks", response=List[TrackResponse])

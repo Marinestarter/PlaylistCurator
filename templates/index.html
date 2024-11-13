@@ -1,28 +1,112 @@
-{% extends 'base.html' %}
-{% block title %}Spotify Converter{%endblock%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Converter</title>
+    <link rel="stylesheet" href="../static/PlaylistCurator/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Slabo+27px&display=swap" rel="stylesheet">
+</head>
 
-{% block body %}
-    <nav class="navbar navbar-dark bg-dark mb-4">
-        <div class="container">
-            <span class="navbar-brand mb-0 h1">Spotify Playlist Manager</span>
+<body>
+    <nav>
+        <div class="logo">
+            <div class="sqrLogo"></div>
+        </div>
+
+        <div class="searchBar">
+            <input type="text" placeholder="SEARCH..">
+        </div>
+
+        <div class="headr">
+            <p>
+                <a href="#one">Home</a>
+            </p>
+        </div>
+
+        <div class="headr">
+            <p>
+                <a href="">Conversion</a>
+            </p>
+        </div>
+
+        <div class="headr">
+            <p>
+                <a href="#three">Create Playlist</a>
+            </p>
+        </div>
+
+        <div class="headr">
+            <p>
+                <a href="#four">My Profile</a>
+            </p>
+        </div>
+
+        <div class="headr">
+            <p>
+                <a href="#five">Sign in</a>
+            </p>
         </div>
     </nav>
 
-    <div class="container">
-        <div id="user-info" class="mb-4">
-            <h2 class="h4">User Information</h2>
-            <p class="text-muted">Loading user info...</p>
-        </div>
+    <section class="all">
+        <section class="one">
+            <div class="rect" id="one"></div>
+            <div class="rect" id="two"></div>
+            <div class="rect" id="three"></div>
+            <div class="rect" id="four"></div>
+            <div class="rect" id="five"></div>
+        </section>
 
-        <div class="row">
-            <div class="col-md-4">
-                <div id="playlists" class="mb-4">
-                    <h2 class="h4 mb-3">Your Playlists</h2>
-                    <div id="playlist-list"></div>
+        <section class="two">
+            <div class = "rect1" id="one">
+                <div id="user-info" class="mb-4">
+                    <h2 class="h4">User Information</h2>
+                    <h3 class="text-muted">Loading user info...</h3>
+                </div>
+            </div>   
+            
+            <div class="rect1" id="two">
+                <div class="col-md-4">
+                    <div id="playlists" class="mb-4">
+                        <h2 class="h4 mb-3">Your Playlists</h2>
+                        <div id="playlist-list"></div>
+                    </div>
                 </div>
             </div>
+            
+            <div class="rect2" id="three">
+                <div class="col-md-8">
+                <div id="tracks" class="hidden mb-4">
+                    <h2 class="h4 mb-3">Playlist Tracks</h2>
+                    <button class="btn btn-primary mb-3" onclick="convertCurrentPlaylist()">Convert to Clean</button>
+                    <div id="track-list" class="list-group"></div>
+                </div>
 
-            <div class="col-md-8">
+                
+            </div>
+                
+                
+            </div>
+        </section>
+    </section>
+</body>
+
+
+
+
+
+
+
+<!--
+<body>
+<div id="conversion-result" class="hidden">
+                    <h2 class="h4 mb-3">Most Recent Conversion Result</h2>
+                    <div id="conversion-details" class="card card-body"></div>
+                </div>
+<div class="col-md-8">
                 <div id="tracks" class="hidden mb-4">
                     <h2 class="h4 mb-3">Playlist Tracks</h2>
                     <button class="btn btn-primary mb-3" onclick="convertCurrentPlaylist()">Convert to Clean</button>
@@ -36,6 +120,7 @@
             </div>
         </div>
     </div>
+-->
 
     <!-- Add Bootstrap JS and its dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -57,27 +142,30 @@
         }
 
         async function fetchPlaylists() {
-            try {
-                const response = await fetch('/api/playlists');
-                const playlists = await response.json();
-                const playlistList = document.getElementById('playlist-list');
-                playlistList.innerHTML = playlists.map(playlist => `
-                    <div class="card mb-2 playlist-card" onclick="showTracks('${playlist.id}')">
-                        <div class="card-body">
-                            <h3 class="h6 mb-2">${playlist.name}</h3>
-                            <a href="${playlist.external_urls.spotify}" 
-                               class="btn btn-sm btn-outline-secondary" 
-                               target="_blank"
-                               onclick="event.stopPropagation()">
-                                Open in Spotify
-                            </a>
-                        </div>
-                    </div>
-                `).join('');
-            } catch (error) {
-                console.error('Error fetching playlists:', error);
-            }
-        }
+    try {
+        const response = await fetch('/api/playlists');
+        const playlists = await response.json();
+        const playlistList = document.getElementById('playlist-list');
+        
+        const limitedPlaylists = playlists.slice(0, 10);
+        
+        playlistList.innerHTML = limitedPlaylists.map(playlist => `
+            <div class="card mb-2 playlist-card" onclick="showTracks('${playlist.id}')">
+                <div class="card-body">
+                    <h3 class="h6 mb-2">${playlist.name}</h3>
+                    <a href="${playlist.external_urls.spotify}" 
+                       class="spotify_button" 
+                       target="_blank"
+                       onclick="event.stopPropagation()">
+                        Open in Spotify
+                    </a>
+                </div>
+            </div>
+        `).join('');
+    } catch (error) {
+        console.error('Error fetching playlists:', error);
+    }
+}
 
         async function showTracks(playlistId) {
             currentPlaylistId = playlistId;
@@ -160,5 +248,7 @@
         fetchUserInfo();
         fetchPlaylists();
     </script>
-    {% endblock %}
+</body>
+
+
 </html>
