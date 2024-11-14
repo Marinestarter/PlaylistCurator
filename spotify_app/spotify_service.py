@@ -209,7 +209,7 @@ class SpotifyService:
 
         except Exception as e:
             logging.error(f"Failed to convert playlist: {e}")
-            raise
+
     def add_additional_songs(self, playlist_id: str, song_uris: List) -> str:
         try:
             if song_uris:

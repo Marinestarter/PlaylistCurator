@@ -28,6 +28,7 @@ nav {
     justify-content: space-around;
     align-items: center;
     background-color: lightcoral;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     /*gap: 20px;*/
 }
 
@@ -49,12 +50,19 @@ nav input[type=text] {
     font-size: 15px;
     box-shadow: 3px 1px 0px 2px, 0px -1px 0px 2px rgba(0, 0, 0, 0.62);
     height: 40px;
+    padding:0 15px;
+    border-radius: 4px;
 }
 
 nav a {
     color: #2D2D2D;
     text-decoration: none;
     font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+nav a:hover{
+    color: #ffffff
 }
 
 section.all {
@@ -113,21 +121,29 @@ div.rect#five {
 
 section.two {
     width: 100vw;
-    height: 50vw;
+    height: auto;
+    min-height: 50vw;
     background-color: #2D2D2D;
     display: flex;
+    padding: 2vw 0;
 }
 
-div.rect1#one {
+div.rect1{
     width:30%;
-    height: 100%;
-    padding: 0vw;
-    margin: 2.5vw;
+    height: auto;
+    padding: 1vw;
+    margin: 0.5vw;
+    background-color: #FFFFFF0D;
+    border-radius: 8px;
 }
 
 div.rect1#two {
-    width:35%;
-    height: 100%;
+    width:30%;
+    height: auto;
+    padding: 2vw;
+    margin: 0 2vw;
+    background-color: #FFFFFF0D;
+        border-radius: 8px;
 }
 div.list-group#track-list {
     line-height: 2vw;
@@ -142,8 +158,46 @@ div.h4{
     font-size: 36px;
 }
 
-div.rect2#three {
+div.rect1#three {
     width: 35%;
-    height: 100%;
+    height: auto;
+    padding: 2vw;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
 }
 
+.playlist-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    margin-bottom: 1rem;
+}
+
+.playlist-card .card-body {
+    padding: 1.5rem;  /* Increased vertical padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    min-height: 2.5rem;  /* Ensure minimum height for content */
+}
+
+.playlist-card h3 {
+    color: #ffffff;
+    margin: 0;
+    font-size: 1.1rem;
+    flex: 1;
+    overflow: visible;  /* Allow text to be fully visible */
+    line-height: 1.2;  /* Proper line height for text */
+}
+
+.spotify_button {
+    padding: 0.5rem 1rem;
+    background-color: lightcoral;
+    color:white;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
+}

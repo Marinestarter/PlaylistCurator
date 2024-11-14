@@ -73,10 +73,21 @@ class YouTubeService:
         try:
             tracks = []
             request = self.youtube.playlistItems().list(
-                part='snippet',
+                part='snippet,id',
                 playlist_id=playlist_id,
                 maxResults = 50
             )
+
+            while request:
+                response = request.execute()
+                tracks.extend([{
+                    'id': item['id'],
+                    'name': item['snippet']['title'],
+                    'external_urls': {
+                        'youtube': f"https://www.youtube.com/playlist?list={item['id']}"
+                    },
+                    'tracks': None
+
 
 
 
