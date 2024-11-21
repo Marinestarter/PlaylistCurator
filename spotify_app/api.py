@@ -1,22 +1,25 @@
+from ninja import NinjaAPI
 from typing import List
 
-from ninja import NinjaAPI
+from . import spotify_service
+from .services.schemas import PlaylistResponse, TrackResponse, PlaylistConversionResponse
+from .spotify_auth import SpotifyAuthService
+from .spotify_service import SpotifyService
+from django.shortcuts import redirect
 
-from spotify_app.services.schemas import (
-    PlaylistResponse,
-    PlaylistConversionResponse,
-    UserResponse,
-    TrackResponse
-)
-from spotify_app.spotify_service import SpotifyService
+from .views import get_spotify_client
 
 api = NinjaAPI()
-spotify_service = SpotifyService()
 
-
-@api.get("/user", response=UserResponse)
+@api.get("/user")
 def get_user(request):
-    return spotify_service.get_user()
+    spotify_client = get_spotify_client(request)
+    if not spotify_client:
+        return redirect('spotify_login')  # Redirect to login if not authenticated
+
+    spotify_service = SpotifyService(spotify_client)
+    user_info = spotify_service.get_user()
+    return user_info
 
 
 @api.get("/playlists", response=List[PlaylistResponse])

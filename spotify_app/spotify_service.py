@@ -1,32 +1,20 @@
 import logging
 from typing import Dict, List
-from urllib.parse import quote
-import concurrent.futures
 from concurrent.futures import ThreadPoolExecutor
+from urllib.parse import quote
 
-import spotipy
 from fuzzywuzzy import fuzz
-from spotipy.oauth2 import SpotifyOAuth
+import concurrent
+
 
 logger = logging.getLogger(__name__)
 
 
 class SpotifyService:
-    def __init__(self):
-        self._spotify = None
+    def __init__(self, spotify_client):
+        self.spotify = spotify_client
         self._user = None
         self.max_workers = 10
-
-    @property
-    def spotify(self) -> spotipy.Spotify:
-        if self._spotify is None:
-            self._spotify = spotipy.Spotify(auth_manager=SpotifyOAuth(
-                client_id='be72da4625c24b18af5e51e8cc509f07',
-                client_secret='ff22df8effea4e79ae41b3ccc48ab7a8',
-                redirect_uri='http://localhost:8000/spotify/callback/',
-                scope="playlist-modify-public playlist-modify-private playlist-read-private"
-            ))
-        return self._spotify
 
     def get_user(self) -> Dict:
         """Get current user information"""
@@ -34,7 +22,7 @@ class SpotifyService:
             try:
                 self._user = self.spotify.current_user()
             except Exception as e:
-                print(f"Failed to get user: {e}")
+                logger.error(f"Failed to get user: {e}")
                 raise
         return self._user
 
