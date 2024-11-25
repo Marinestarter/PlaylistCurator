@@ -1,0 +1,228 @@
+INFO 2024-11-23 21:10:34,375 autoreload Watching for file changes with StatReloader
+INFO 2024-11-23 21:10:35,719 basehttp "GET /api/callback?code=AQBd5-HTFeMa2cq0AVJoXuRUwKB6BNS1kpK8zkzaCvPGhJNT3RI21on6UkcylKN29x9R_hdiFqquanRFlOENe3MLMSqVNRBkeWZpKI4WvJgLi-bZQSqpoLc_7UEiFDR282mXNixp3m0gfqOso6WxUZOWOt4R4JTjubg508_NtaPALJpJdvJtlpCBMAq4c-8fxYy9PRP2wZEJPwADE7cVtWtYNC5h-3hCEpNJJKd6Qx0lpFNJcWXn-ZiBJfDDEcp2jeBSvZz17sZc1gCdpwc HTTP/1.1" 200 681
+INFO 2024-11-23 21:10:53,641 basehttp "GET /api/docs HTTP/1.1" 200 13789
+INFO 2024-11-23 21:10:53,674 basehttp "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 304 0
+INFO 2024-11-23 21:10:53,675 basehttp "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 304 0
+INFO 2024-11-23 21:10:53,767 basehttp "GET /static/debug_toolbar/css/print.css HTTP/1.1" 304 0
+INFO 2024-11-23 21:10:53,767 basehttp "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 304 0
+INFO 2024-11-23 21:10:53,777 basehttp "GET /api/openapi.json HTTP/1.1" 200 5792
+INFO 2024-11-23 21:11:03,517 basehttp "GET /api/callback?code=AQA053lihjjVhq6pOAjAkbUtdE80NqYHcUF9cMxyXyFK8g8MP7lmI-HCxPClyRQh4dDyMYo2r_w-L2uInIAcbuzkweUHX1Wf53U-bE2ZHbdF6iA2CLDeE8cF3CsO8TLc6oJwN0JyWbsZm9Be5zAXoUCwuXgEzzltzABpZcxnEffJwiYFsnx05V4WQw4RG6rcziG0-ZH5fY-g0qEc5zMdxBL7gByEkAZLMXMdnE3x6exduD4txa62uH8_eupCmNlIlnsW_6b-zlKWP4gJ77I HTTP/1.1" 200 681
+INFO 2024-11-23 21:12:14,540 autoreload C:\Users\shoel\PycharmProjects\PlaylistCurator\newMusicCleaner\settings.py changed, reloading.
+INFO 2024-11-23 21:14:27,594 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-23 21:14:29,916 log Not Found: /
+WARNING 2024-11-23 21:14:29,917 basehttp "GET / HTTP/1.1" 404 15616
+INFO 2024-11-23 21:14:29,957 basehttp "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 304 0
+INFO 2024-11-23 21:14:29,957 basehttp "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 304 0
+INFO 2024-11-23 21:14:29,959 basehttp "GET /static/debug_toolbar/css/print.css HTTP/1.1" 304 0
+INFO 2024-11-23 21:14:29,976 basehttp "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 304 0
+INFO 2024-11-23 21:14:32,946 basehttp "GET /api/docs HTTP/1.1" 200 13788
+INFO 2024-11-23 21:14:33,021 basehttp "GET /api/openapi.json HTTP/1.1" 200 5792
+INFO 2024-11-23 21:14:38,277 basehttp "GET /api/callback?code=AQCv0PjTbsDnqhp5t_7dB_e3aiaA4DPDzhXqVKPi9sj1YJgDZb0uwWtIyoc0FCUxBP0oxIlSlxybGJV7d7JRk65qOPL2Xc5UvSO8CK9y5IIaW--NsXgWW4KLRUkjOq5juW3TpdFAM2ayhFRT3ZPRWBe6GMlvZsr-loADnoOHniFAoZVRiLcgIOQ-jQOaz3Bimurvbzq8UKLuN01uhp55X4zYs4a4RXML-c03KgHbKsCI8RjGSFxs5YQ6BS-UuE7QGZN7zMNB41AOkPhu3rU HTTP/1.1" 200 681
+INFO 2024-11-23 21:16:30,702 autoreload C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\spotify_service.py changed, reloading.
+INFO 2024-11-23 21:16:31,568 autoreload Watching for file changes with StatReloader
+INFO 2024-11-23 21:16:32,903 basehttp "GET /api/callback?code=AQDsLJhP4n_017zE7HLA7QWZM449bvQDFLiAeobjZG5J3XpvdJo34T8mrqCHHC3Xnduf0vCenK36v9sFFEF9Ir_IDKa3C8SoahdBi3haVMJrBq-weERfwee-j_x27PQv6WNcgrF1CD3Z1MDdV43CPwu_nm5bk3QugFSTRsFsWkrbGNsADDiLPQp69Wlxy9NyksHRsCdXt__Q8caLib-0Z5h7N2d12t4vIDELq0kvjzQDwVLo4EJsePhGhgvqbu6V3Tg4TO498alFZc3oqmw HTTP/1.1" 200 681
+INFO 2024-11-23 21:17:23,064 basehttp "GET /api/docs HTTP/1.1" 200 13788
+INFO 2024-11-23 21:17:23,099 basehttp "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 304 0
+INFO 2024-11-23 21:17:23,099 basehttp "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 304 0
+INFO 2024-11-23 21:17:23,156 basehttp "GET /static/debug_toolbar/css/print.css HTTP/1.1" 304 0
+INFO 2024-11-23 21:17:23,157 basehttp "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 304 0
+INFO 2024-11-23 21:17:23,164 basehttp "GET /api/openapi.json HTTP/1.1" 200 5792
+INFO 2024-11-23 21:17:26,632 basehttp "GET /api/callback?code=AQD5AF2z8HNVf47Vs2vjXgIZEhHcVCUtDv8AnZZMXyO1-xaKzvYaGcPV1az-a2SHbmk6Jquu0S7CSA7ARqczW8kuunG0W558jhtQthaLEtp0zSAm5syNtrmmUg_-cgdtLdLD5lvbkNJtV9BrQ6VjYvvpN34co2OL7AJeEM4dDDU6ccSBfqZOpT2UaVuOZaZqriwiFGTOtWkhJE5Ou4MRlR4vK6r3LFqDYvwHy7yehwNtWXkET0qU9rN-LGauUXsulqMOOf1woLqzpdOCZHM HTTP/1.1" 200 681
+INFO 2024-11-23 21:17:31,095 basehttp "GET /api/docs HTTP/1.1" 200 13788
+INFO 2024-11-23 21:17:31,192 basehttp "GET /api/openapi.json HTTP/1.1" 200 5792
+INFO 2024-11-23 21:17:34,291 basehttp "GET /api/callback?code=AQAJy9iXBPAAz-2r-i1U6Aw0w0SPOSW8WIyE29t5L3yD6UX3R6ZaZqZAgNp0PpeFRP5O4QqdQdowRVvFTWWYowGCnbbdG6XpouFDgHYdFVfnlrFRml9arXS5ChdzB6dmzzizVDIwBOqUSCWBn2MZGkAl9Z6mNMo0YB5R8ZYzu6OqLmAFYzKYm-EgNKrMyveSbbb64NjD7bIwInB1-2WBafg0zMHIuWafeOjLA0BlquqDFHFdMIUmhgqcJwvAUSMVBY0dr_ZQ_cD4yXnNVWk HTTP/1.1" 200 681
+INFO 2024-11-23 21:21:22,018 autoreload C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\spotify_service.py changed, reloading.
+INFO 2024-11-23 21:21:22,937 autoreload Watching for file changes with StatReloader
+ERROR 2024-11-23 21:21:23,444 errors name 'RedisCacheHandler' is not defined
+Traceback (most recent call last):
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\ninja\operation.py", line 120, in run
+    result = self.view_func(request, **values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\api.py", line 51, in get_user
+    return spotify_service.get_user(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\spotify_service.py", line 40, in get_user
+    spotify = self.get_spotify_client(request)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\spotify_service.py", line 20, in get_spotify_client
+    cache_handler = RedisCacheHandler(request)
+                    ^^^^^^^^^^^^^^^^^
+NameError: name 'RedisCacheHandler' is not defined
+ERROR 2024-11-23 21:21:23,462 log Internal Server Error: /api/user
+ERROR 2024-11-23 21:21:23,462 basehttp "GET /api/user HTTP/1.1" 500 891
+INFO 2024-11-23 21:21:24,260 basehttp "GET /__debug__/history_sidebar/?store_id=6ff61d263cb441e3830a65adf1f8da0d HTTP/1.1" 200 9824
+INFO 2024-11-23 21:21:34,147 autoreload C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\spotify_service.py changed, reloading.
+INFO 2024-11-23 21:21:35,002 autoreload Watching for file changes with StatReloader
+ERROR 2024-11-23 21:21:37,285 errors 'WSGIRequest' object has no attribute 'get'
+Traceback (most recent call last):
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\ninja\operation.py", line 120, in run
+    result = self.view_func(request, **values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\api.py", line 51, in get_user
+    return spotify_service.get_user(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\spotify_service.py", line 40, in get_user
+    spotify = self.get_spotify_client(request)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\spotify_service.py", line 21, in get_spotify_client
+    token_info = cache_handler.get_cached_token()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\spotipy\cache_handler.py", line 199, in get_cached_token
+    token_info = self.redis.get(self.key)
+                 ^^^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'get'
+ERROR 2024-11-23 21:21:37,318 log Internal Server Error: /api/user
+ERROR 2024-11-23 21:21:37,319 basehttp "GET /api/user HTTP/1.1" 500 1125
+INFO 2024-11-23 21:21:37,526 basehttp "GET /__debug__/history_sidebar/?store_id=56d391c90d604bdcba7fe9d32a8f773a HTTP/1.1" 200 9824
+INFO 2024-11-23 21:21:51,526 basehttp "GET /api/docs HTTP/1.1" 200 13789
+INFO 2024-11-23 21:21:51,544 basehttp "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 304 0
+INFO 2024-11-23 21:21:51,544 basehttp "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 304 0
+INFO 2024-11-23 21:21:51,607 basehttp "GET /static/debug_toolbar/css/print.css HTTP/1.1" 304 0
+INFO 2024-11-23 21:21:51,607 basehttp "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 304 0
+INFO 2024-11-23 21:21:51,616 basehttp "GET /api/openapi.json HTTP/1.1" 200 5792
+INFO 2024-11-23 21:22:04,081 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-23 21:22:06,531 log Not Found: /
+WARNING 2024-11-23 21:22:06,531 basehttp "GET / HTTP/1.1" 404 15616
+INFO 2024-11-23 21:22:09,658 basehttp "GET /api/docs HTTP/1.1" 200 13788
+INFO 2024-11-23 21:22:09,729 basehttp "GET /api/openapi.json HTTP/1.1" 200 5792
+ERROR 2024-11-23 21:22:15,403 errors 'WSGIRequest' object has no attribute 'get'
+Traceback (most recent call last):
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\ninja\operation.py", line 120, in run
+    result = self.view_func(request, **values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\api.py", line 51, in get_user
+    return spotify_service.get_user(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\spotify_service.py", line 40, in get_user
+    spotify = self.get_spotify_client(request)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\spotify_service.py", line 21, in get_spotify_client
+    token_info = cache_handler.get_cached_token()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\spotipy\cache_handler.py", line 199, in get_cached_token
+    token_info = self.redis.get(self.key)
+                 ^^^^^^^^^^^^^^
+AttributeError: 'WSGIRequest' object has no attribute 'get'
+ERROR 2024-11-23 21:22:15,416 log Internal Server Error: /api/user
+ERROR 2024-11-23 21:22:15,418 basehttp "GET /api/user HTTP/1.1" 500 1125
+INFO 2024-11-23 21:22:15,628 basehttp "GET /__debug__/history_sidebar/?store_id=b87bba65cfc44919a86586990f3fa368 HTTP/1.1" 200 9824
+INFO 2024-11-23 21:25:23,966 autoreload C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\spotify_service.py changed, reloading.
+INFO 2024-11-23 21:25:24,891 autoreload Watching for file changes with StatReloader
+INFO 2024-11-23 21:25:32,326 basehttp "GET /api/callback?code=AQDopH9DZXTq5TluLQERJ_CyrXPXUzn4dfErTNExFeROw2rFA6-mQO8Zr5YPjfIYdhmlUFTLR8SvM25QM1cRP1AH25XH8loH8PbHDYb3ZC0Ock64Ti-dVCFtv0zXDF2Gg3jNvgjHZiAQ5DK07iHKTCji8KJsxQX69OKFNnBpnqWkNvj_IkwP3gYC4s0dWGhAelYSZ35r0JaEPZfkKH7ZHaN9CsX5Did4rXS4D6CqwNR8f-dA11kKvz_abPRF_ePirQJwxuPKbZ-A2AYOEAw HTTP/1.1" 200 681
+INFO 2024-11-23 21:36:40,065 autoreload C:\Users\shoel\PycharmProjects\PlaylistCurator\newMusicCleaner\settings.py changed, reloading.
+INFO 2024-11-23 21:36:40,910 autoreload Watching for file changes with StatReloader
+INFO 2024-11-23 21:37:28,818 autoreload C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\spotify_service.py changed, reloading.
+INFO 2024-11-23 21:37:29,624 autoreload Watching for file changes with StatReloader
+INFO 2024-11-23 21:38:23,389 autoreload C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\spotify_service.py changed, reloading.
+INFO 2024-11-23 21:38:24,186 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-23 21:38:32,006 log Not Found: /
+WARNING 2024-11-23 21:38:32,007 basehttp "GET / HTTP/1.1" 404 15616
+INFO 2024-11-23 21:38:32,048 basehttp "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 304 0
+INFO 2024-11-23 21:38:32,048 basehttp "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 304 0
+INFO 2024-11-23 21:38:32,050 basehttp "GET /static/debug_toolbar/css/print.css HTTP/1.1" 304 0
+INFO 2024-11-23 21:38:32,070 basehttp "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 304 0
+INFO 2024-11-23 21:38:45,927 basehttp "GET /api/docs HTTP/1.1" 200 13789
+INFO 2024-11-23 21:38:46,013 basehttp "GET /api/openapi.json HTTP/1.1" 200 5792
+ERROR 2024-11-23 21:38:51,082 log Internal Server Error: /api/callback
+Traceback (most recent call last):
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\redis\connection.py", line 1415, in get_connection
+    connection = self._available_connections.pop()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IndexError: pop from empty list
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\django\utils\deprecation.py", line 131, in __call__
+    response = self.process_response(request, response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\django\contrib\sessions\middleware.py", line 59, in process_response
+    request.session.save()
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\django\contrib\sessions\backends\cache.py", line 83, in save
+    return self.create()
+           ^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\django\contrib\sessions\backends\cache.py", line 55, in create
+    self._session_key = self._get_new_session_key()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\django\contrib\sessions\backends\base.py", line 196, in _get_new_session_key
+    if not self.exists(session_key):
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\django\contrib\sessions\backends\cache.py", line 117, in exists
+    bool(session_key) and (self.cache_key_prefix + session_key) in self._cache
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\django\core\cache\backends\base.py", line 300, in __contains__
+    return self.has_key(key)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\debug_toolbar\panels\cache.py", line 42, in wrapper
+    return panel._record_call(cache, name, original_method, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\debug_toolbar\panels\cache.py", line 149, in _record_call
+    value = original_method(*args, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\django\core\cache\backends\redis.py", line 210, in has_key
+    return self._cache.has_key(key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\django\core\cache\backends\redis.py", line 130, in has_key
+    return bool(client.exists(key))
+                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\redis\commands\core.py", line 1729, in exists
+    return self.execute_command("EXISTS", *names, keys=names)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\redis\client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\redis\client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\redis\connection.py", line 1417, in get_connection
+    connection = self.make_connection()
+                 ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\redis\connection.py", line 1463, in make_connection
+    return self.connection_class(**self.connection_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shoel\PycharmProjects\newMusicCleaner\.venv\Lib\site-packages\redis\connection.py", line 684, in __init__
+    super().__init__(**kwargs)
+TypeError: AbstractConnection.__init__() got an unexpected keyword argument 'CLIENT_CLASS'
+ERROR 2024-11-23 21:38:51,131 basehttp "GET /api/callback?code=AQCkRn9omiZbhymr0hVN1lfrp1mSitw5_kNOae7jtMgRn8Vl8gg2Llgha3FB1v42w7xR40eKnOduKxRhXGv4R3LwbEPmE5lchidnl6NafQ40IqfJG-FVq5lIwpjZO5DSh-oPChFoZgy-nB1WIytHPU2HUe3YNEKa-N8cnbu4u-LQW5Hwzzx6yaiAy9XbYKvdJIuaenYubkGcg7KsKhMMQwmbwKc27fawiPauqoAferM-49MRI27Ia-gHFfON3ESq8yk8utQKUB_uprrJ_8U HTTP/1.1" 500 156398
+INFO 2024-11-23 21:38:51,228 basehttp "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 304 0
+INFO 2024-11-23 21:38:51,229 basehttp "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 304 0
+INFO 2024-11-23 21:38:51,231 basehttp "GET /static/debug_toolbar/css/print.css HTTP/1.1" 304 0
+INFO 2024-11-23 21:38:51,244 basehttp "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 304 0
+INFO 2024-11-23 21:41:17,009 autoreload C:\Users\shoel\PycharmProjects\PlaylistCurator\newMusicCleaner\settings.py changed, reloading.
+INFO 2024-11-23 21:41:17,946 autoreload Watching for file changes with StatReloader
+INFO 2024-11-23 21:41:19,265 basehttp "GET /api/callback?code=AQCI0uSj5G-7Iq9lNzNwUzG1-K85V0tQgUBXaHCDyJ7IM4TTJAOl_KWaurq0vCHcScYtbcE6SpjxWDfvNo_Rjd4SWLpdIsUtjjZXxjdk4-uO4iQQMob9tZBQg2EMLjl2HWUsKoc2AgniKeA5-d0AbCVtD4c2CQg3vbrltEUPnRU6juOi8_EsS81GXYMzpHy_VjDhBoBomFFgdGoU3Azf3OliVtR5f38jqNqJBQzIPU_nfLY9GVlOEYoRYW4Ey-NATLS-wLSsXoz6J9klGog HTTP/1.1" 200 681
+INFO 2024-11-23 21:41:24,688 basehttp "GET /api/docs HTTP/1.1" 200 13789
+INFO 2024-11-23 21:41:24,795 basehttp "GET /api/openapi.json HTTP/1.1" 200 5792
+INFO 2024-11-23 21:41:28,744 basehttp "GET /api/callback?code=AQCBGlYrSEVToq17xIKH8Zos-_EXdqGHkYutVUzbWL6AKz7vxogBphP7zQT2xygi6ZP1D9pz0V6XCphuE2LurF3jkK3HJbhNEmsXfaPm-lb6M2OftfYT33O2HwMqi55gZ8l2PTTR7lnFOLziBczYdYims2ShClr2fnAuf-c8zBDOcnBCARffHfRHpNg-fq5MViugQknq35v-h92yOlo0eyOMKOjsqTzfPna8P6ztT3GW1hzdahRbsdbwLmm6Lc6MXgyee0Zo6W0iHp53Jk0 HTTP/1.1" 200 681
+INFO 2024-11-23 21:42:07,393 basehttp "GET /api/docs HTTP/1.1" 200 13788
+INFO 2024-11-23 21:42:07,487 basehttp "GET /api/openapi.json HTTP/1.1" 200 5792
+INFO 2024-11-23 21:42:10,516 basehttp "GET /api/callback?code=AQBLOHn03ftByXtzR_5N-5cHdyiZYCs_CxZR0gVu-oHgnEFnpY0STKbUb_64VWPliqYY6FWqDD8m02vhyQ1Vb30vyfQ8bNB5bTJms6k9zBl16Rlqkw-eZnqJaM-STt7-tOcoJUDElEZosgJa35qKLgXrURFlpkae6t7n-1dnAjo0a6c0SK9Ul-ULeGN-rwo3DBdqc_PBV-vldTp08uI0Y6Skr924TuoOl0D7JDo-_rf4tHCIcCG5aNBPvrrldT9QX9oMPXvVl6Qxda939Gk HTTP/1.1" 200 681
+INFO 2024-11-23 21:53:35,537 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-23 21:53:37,422 log Not Found: /
+WARNING 2024-11-23 21:53:37,422 basehttp "GET / HTTP/1.1" 404 15616
+INFO 2024-11-23 21:53:37,457 basehttp "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 304 0
+INFO 2024-11-23 21:53:37,460 basehttp "GET /static/debug_toolbar/css/print.css HTTP/1.1" 304 0
+INFO 2024-11-23 21:53:37,467 basehttp "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 304 0
+INFO 2024-11-23 21:53:37,487 basehttp "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 304 0
+INFO 2024-11-23 21:53:41,480 basehttp "GET /api/docs HTTP/1.1" 200 13788
+INFO 2024-11-23 21:53:41,552 basehttp "GET /api/openapi.json HTTP/1.1" 200 5792
+INFO 2024-11-23 21:54:14,308 basehttp "GET /api/callback?code=AQDiAFWpYmd_evvtWPxXS2KJEZLgIy6tqg7FaHiQgUN6sPrRxwqckkL9x38FoD6EKmhIVc2ZyV4g00L_byrRAL360Efa2vd7zB3p8uNuh4zAzMrs8liNuzay5DChUYldiFRUhJm3RDFyHz29WHfrX8xm119qkK6NzVrxf5NuN-VD6hY36L7-dsoPYMvWWAGYwczdDL2QB95MPDOvhE08HvnuCjhuMImGaOyGCEvdhqcUCFkYLzqNBkuvtT1JXzuaYMJKDVFMAgtMH3hcvR8 HTTP/1.1" 200 681
+INFO 2024-11-23 21:54:32,987 basehttp "GET /api/callback?code=AQDiAFWpYmd_evvtWPxXS2KJEZLgIy6tqg7FaHiQgUN6sPrRxwqckkL9x38FoD6EKmhIVc2ZyV4g00L_byrRAL360Efa2vd7zB3p8uNuh4zAzMrs8liNuzay5DChUYldiFRUhJm3RDFyHz29WHfrX8xm119qkK6NzVrxf5NuN-VD6hY36L7-dsoPYMvWWAGYwczdDL2QB95MPDOvhE08HvnuCjhuMImGaOyGCEvdhqcUCFkYLzqNBkuvtT1JXzuaYMJKDVFMAgtMH3hcvR8 HTTP/1.1" 200 681
+INFO 2024-11-23 21:54:33,206 basehttp "GET /__debug__/history_sidebar/?store_id=5f23b1206216402ea3fd4ca8afb43687 HTTP/1.1" 200 10109
+INFO 2024-11-23 21:54:38,831 basehttp "GET /__debug__/render_panel/?store_id=2a6c66b281e2456d8a48afab734c95b8&panel_id=CachePanel HTTP/1.1" 200 1413
+INFO 2024-11-23 21:57:26,409 autoreload C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\api.py changed, reloading.
+INFO 2024-11-23 21:57:27,354 autoreload Watching for file changes with StatReloader
+INFO 2024-11-23 22:00:18,246 autoreload C:\Users\shoel\PycharmProjects\PlaylistCurator\spotify_app\api.py changed, reloading.
+INFO 2024-11-23 22:00:18,916 autoreload Watching for file changes with StatReloader
+WARNING 2024-11-23 22:00:25,056 log Not Found: /
+WARNING 2024-11-23 22:00:25,057 basehttp "GET / HTTP/1.1" 404 15616
+INFO 2024-11-23 22:00:25,097 basehttp "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 304 0
+INFO 2024-11-23 22:00:25,098 basehttp "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 304 0
+INFO 2024-11-23 22:00:25,100 basehttp "GET /static/debug_toolbar/css/print.css HTTP/1.1" 304 0
+INFO 2024-11-23 22:00:25,120 basehttp "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 304 0
+INFO 2024-11-23 22:00:28,390 basehttp "GET /api/docs HTTP/1.1" 200 13788
+INFO 2024-11-23 22:00:28,494 basehttp "GET /api/openapi.json HTTP/1.1" 200 5953
+INFO 2024-11-23 22:00:36,146 basehttp "GET /api/callback?code=AQAlfn5P3Q10bTpvTK3VXZFZ-vRsvYt0ELLIa0nJZqwpkD_l1l8Lez1TwZfj44LuyYhZ1DQbbeqFNxDXq8l9RPmWVUGLGIsBuQ6A6Y1ic_75a9mEiLjlA_lim6k6yrXblzd89eMrOXZLmvJ10y24KgPckTJumGfTf7m3zGBJtfwaNPfiHiJxc9Nn9w_Qo2eraVy9Uuju8BNHJtAthPWo8ApclEiW8_USWLTgO-imjmrmtntGHD4TgYvGEgo5jtXnEEeopOQ2OHhI6bpPTk0 HTTP/1.1" 200 681
