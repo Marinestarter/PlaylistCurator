@@ -9,11 +9,14 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import environ
 from pathlib import Path
-
+import os
+env = environ.Env()
+environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -136,9 +139,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Spotify API Authorization Details
 
-SP_CLIENT_ID = 'be72da4625c24b18af5e51e8cc509f07'
-SP_CLIENT_SECRET = 'ff22df8effea4e79ae41b3ccc48ab7a8'
-SP_REDIRECT_URI = 'http://localhost:8000/spotify/callback/'
+SP_CLIENT_ID = env('SP_CLIENT_ID')
+SP_CLIENT_SECRET = env('SP_CLIENT_SECRET')
+SP_REDIRECT_URI = env('SP_REDIRECT_URI')
 
 #
 

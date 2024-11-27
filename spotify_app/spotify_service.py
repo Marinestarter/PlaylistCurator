@@ -8,31 +8,32 @@ import spotipy
 from fuzzywuzzy import fuzz
 from spotipy.oauth2 import SpotifyOAuth
 
+from spotify_app.extras import get_spotify_client
+
 logger = logging.getLogger(__name__)
 
 
 class SpotifyService:
-    def __init__(self):
+    def __init__(self, session_id=None):
         self._spotify = None
         self._user = None
+        self.session_id = session_id
         self.max_workers = 10
 
-    @property
-    def spotify(self) -> spotipy.Spotify:
-        if self._spotify is None:
-            self._spotify = spotipy.Spotify(auth_manager=SpotifyOAuth(
-                client_id='be72da4625c24b18af5e51e8cc509f07',
-                client_secret='ff22df8effea4e79ae41b3ccc48ab7a8',
-                redirect_uri='http://localhost:8000/spotify/callback/',
-                scope="playlist-modify-public playlist-modify-private playlist-read-private"
-            ))
+    def initialize_client(self):
+        if not self._spotify:
+            self._spotify = get_spotify_client(self.session_id)
+            if not self._spotify:
+                raise Exception("Failed to initialize Spotify client")
         return self._spotify
 
     def get_user(self) -> Dict:
         """Get current user information"""
         if self._user is None:
             try:
-                self._user = self.spotify.current_user()
+                # Initialize the client if not already done
+                self.initialize_client()
+                self._user = self._spotify.current_user()
             except Exception as e:
                 print(f"Failed to get user: {e}")
                 raise
@@ -40,7 +41,8 @@ class SpotifyService:
 
     def get_playlists(self) -> List[Dict]:
         try:
-            results = self.spotify.current_user_playlists()
+            self.initialize_client()
+            results = self._spotify.current_user_playlists()
             playlists = []
 
             # Process each playlist in the results
@@ -61,7 +63,8 @@ class SpotifyService:
     def get_playlist_tracks(self, playlist_id: str) -> List[Dict]:
         try:
             tracks = []
-            results = self.spotify.playlist_items(playlist_id)
+            self.initialize_client()
+            results = self._spotify.playlist_items(playlist_id)
 
             while results:
                 # Appends tracks if they exist in items
@@ -70,7 +73,7 @@ class SpotifyService:
                     if track:
                         tracks.append(track)
 
-                results = self.spotify.next(results) if results.get('next') else None
+                results = self._spotify.next(results) if results.get('next') else None
 
         except Exception as e:
             print(f"Failed to get tracks: {e}")
@@ -92,7 +95,8 @@ class SpotifyService:
         query = track['query'].replace('#', '').strip()
 
         try:
-            search_results = self.spotify.search(q=query, type='track', limit=50)['tracks']['items']
+            self.initialize_client()
+            search_results = self._spotify.search(q=query, type='track', limit=50)['tracks']['items']
         except Exception as e:
             logger.error(f"Failed to search track {query}: {e}")
             return {
@@ -132,8 +136,9 @@ class SpotifyService:
 
     def convert_playlist(self, playlist_id: str, to_clean: bool = True) -> Dict:
         try:
+            self.initialize_client()
             # Get original playlist
-            original_playlist = self.spotify.playlist(playlist_id)
+            original_playlist = self._spotify.playlist(playlist_id)
 
             # Get tracks
             tracks = self.get_playlist_tracks(playlist_id)
@@ -186,7 +191,7 @@ class SpotifyService:
 
             user = self.get_user()
             playlist_name = f"{original_playlist['name']} ({'Cleaned' if to_clean else 'explicit'})"
-            new_playlist = self.spotify.user_playlist_create(
+            new_playlist = self._spotify.user_playlist_create(
                 user['id'],
                 playlist_name,
                 public=True
@@ -196,7 +201,7 @@ class SpotifyService:
             for i in range(0, len(all_tracks), 100):
                 batch = all_tracks[i:i + 100]
                 if batch:
-                    self.spotify.playlist_add_items(new_playlist['id'], batch)
+                    self._spotify.playlist_add_items(new_playlist['id'], batch)
 
             return {
                 'playlist_id': new_playlist['id'],
@@ -213,7 +218,11 @@ class SpotifyService:
     def add_additional_songs(self, playlist_id: str, song_uris: List) -> str:
         try:
             if song_uris:
-                self.spotify.playlist_add_items(playlist_id, song_uris)
+                self.initialize_client()
+                self._spotify.playlist_add_items(playlist_id, song_uris)
                 return "successfully added!"
         except Exception as e:
             logging.error(f"Failed to add songs: {e}")
+
+
+

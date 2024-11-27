@@ -1,89 +1,91 @@
-# views.py
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
-from spotipy import oauth2, SpotifyOAuth
-import spotipy
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import redirect
+from requests import Request, post
+from rest_framework.views import APIView
 
-SPOTIPY_CLIENT_ID = 'be72da4625c24b18af5e51e8cc509f07'
-SPOTIPY_CLIENT_SECRET = 'ff22df8effea4e79ae41b3ccc48ab7a8'
-SPOTIPY_REDIRECT_URI = 'http://localhost:8000/spotify/callback/'
-SCOPE = 'user-library-read'
-CACHE = '.spotipyoauthcache'
-
-sp_oauth = oauth2.SpotifyOAuth(
-    SPOTIPY_CLIENT_ID,
-    SPOTIPY_CLIENT_SECRET,
-    SPOTIPY_REDIRECT_URI,
-    scope=SCOPE,
-    cache_path=CACHE
-)
-
-
-def spotify_login(request):
-    sp_oauth = SpotifyOAuth(
-        client_id=SPOTIPY_CLIENT_ID,
-        client_secret=SPOTIPY_CLIENT_SECRET,
-        redirect_uri=SPOTIPY_REDIRECT_URI,
-        scope="playlist-modify-public playlist-modify-private playlist-read-private"
-    )
-    auth_url = sp_oauth.get_authorize_url()
-    return HttpResponseRedirect(auth_url)
-
-
-def spotify_callback(request):
-    code = request.GET.get('code')
-    if code:
-        sp_oauth = SpotifyOAuth(
-            client_id=SPOTIPY_CLIENT_ID,
-            client_secret=SPOTIPY_CLIENT_SECRET,
-            redirect_uri=SPOTIPY_REDIRECT_URI,
-            scope="playlist-modify-public playlist-modify-private playlist-read-private"
-        )
-        token_info = sp_oauth.get_access_token(code)
-
-        if token_info:
-            request.session['token_info'] = token_info
-            return JsonResponse({'status': 'Authorization successful', 'token_info': token_info})
-        else:
-            return JsonResponse({'error': 'Failed to get access token'})
-
-    return JsonResponse({'error': 'Authorization failed'})
-
-
-def index(request):
-    access_token = ""
-    token_info = sp_oauth.get_cached_token()
-
-    if token_info:
-        print("Found cached token!")
-        access_token = token_info['access_token']
-    else:
-        url = request.build_absolute_uri()
-        code = sp_oauth.parse_response_code(url)
-        if code != url:
-            print("Found Spotify auth code in Request URL! Trying to get valid access token...")
-            token_info = sp_oauth.get_access_token(code)
-            access_token = token_info['access_token']
-
-    if access_token:
-        print("Access token available! Trying to get user information...")
-        sp = spotipy.Spotify(access_token)
-        results = sp.current_user()
-        return HttpResponse(str(results))
-    else:
-        return HttpResponse(htmlForLoginButton())
-
-
-def htmlForLoginButton():
-    auth_url = getSPOauthURI()
-    htmlLoginButton = "<a href='" + auth_url + "'>Login to Spotify</a>"
-    return htmlLoginButton
-
-
-def getSPOauthURI():
-    auth_url = sp_oauth.get_authorize_url()
-    return auth_url
+from newMusicCleaner.settings import SP_REDIRECT_URI, SP_CLIENT_ID, SP_CLIENT_SECRET
+from .extras import create_or_update_tokens, is_spotify_authenticated
 
 
 def spotify_interface(request):
-    return render(request, 'index.html')
+    # This will be your main interface view
+    if not is_spotify_authenticated(request.session.session_key):
+        return redirect('spotify-auth')
+    return JsonResponse({"status": "authenticated"})
+
+
+class AuthenticationURL(APIView):
+    def get(self, request, format=None):
+        scopes = "playlist-modify-public playlist-modify-private playlist-read-private user-library-read"
+        url = Request('GET', 'https://accounts.spotify.com/authorize', params={
+            'scope': scopes,
+            'response_type': 'code',
+            'redirect_uri': SP_REDIRECT_URI,
+            'client_id': SP_CLIENT_ID
+        }).prepare().url
+        return HttpResponseRedirect(url)
+
+
+def spotify_redirect(request, format=None):
+    code = request.GET.get('code')
+    error = request.GET.get('error')
+    if error:
+        # Old: return error
+        # Added proper error redirect
+        return HttpResponseRedirect('/error')
+    print(f"Got auth code: {code[:10]}...")
+
+    response = post('https://accounts.spotify.com/api/token', data={
+        'grant_type': 'authorization_code',
+        'code': code,
+        'redirect_uri': SP_REDIRECT_URI,
+        'client_id': SP_CLIENT_ID,
+        'client_secret': SP_CLIENT_SECRET
+    }).json()
+    access_token = response.get('access_token')
+    refresh_token = response.get('refresh_token')
+    expires_in = response.get('expires_in')
+    token_type = response.get('token_type')
+
+    print(access_token)
+
+    if not all([access_token, refresh_token, expires_in, token_type]):
+        return HttpResponseRedirect('/error?message=invalid_token_response')
+
+
+    if not request.session.session_key:
+        request.session.create()
+
+    print(f"Got access token: {access_token[:10]}...")
+    print(f"Session key: {request.session.session_key}")
+    authKey = request.session.session_key
+
+    create_or_update_tokens(
+        session_id=authKey,
+        access_token=access_token,
+        refresh_token=refresh_token,
+        expires_in=expires_in,
+        token_type=token_type
+    )
+
+    #create a redirect URL to the current song details
+    redirect_url = "/api/docs"
+    return HttpResponseRedirect(redirect_url)
+
+    # Check whether the user has been authenticated by Spotify
+
+
+class CheckAuthentication(APIView):
+    def get(self, request, format=None):
+        if not request.session.session_key:
+            request.session.create()
+
+        session_id = request.session.session_key
+        is_authenticated = is_spotify_authenticated(session_id)
+
+        if is_authenticated:
+            redirect_url = ""
+            return HttpResponseRedirect(redirect_url)
+        else:
+            redirect_url = ""
+            return HttpResponseRedirect(redirect_url)
