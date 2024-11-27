@@ -66,8 +66,8 @@
                     <h2 class="h4">User Information</h2>
                     <h3 class="text-muted">Loading user info...</h3>
                 </div>
-            </div>   
-            
+            </div>
+
             <div class="rect1">
                 <div class="col-md-4">
                     <div id="playlists" class="mb-4">
@@ -76,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="rect1">
                 <div class="col-md-8">
                 <div id="tracks" class="hidden mb-4">
@@ -85,10 +85,10 @@
                     <div id="track-list" class="list-group"></div>
                 </div>
 
-                
+
             </div>
-                
-                
+
+
             </div>
         </section>
     </section>
@@ -124,7 +124,7 @@
 
     <!-- Add Bootstrap JS and its dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <script>
         let currentPlaylistId = null;
 
@@ -146,9 +146,9 @@
         const response = await fetch('/api/playlists');
         const playlists = await response.json();
         const playlistList = document.getElementById('playlist-list');
-        
+
         const limitedPlaylists = playlists.slice(0, 60);
-        
+
         playlistList.innerHTML = limitedPlaylists.map(playlist => `
             <div class="card mb-2 playlist-card" onclick="showTracks('${playlist.id}')">
                 <div class="card-body">
@@ -174,12 +174,12 @@
                 const tracks = await response.json();
                 const trackList = document.getElementById('track-list');
                 document.getElementById('tracks').classList.remove('hidden');
-                
+
                 trackList.innerHTML = tracks.map(track => `
                     <div class="list-group-item ${track.explicit ? 'bg-light' : ''}">
-                        <strong>${track.name}</strong> by 
+                        <strong>${track.name}</strong> by
                         ${track.artists.map(artist => artist.name).join(', ')}
-                        ${track.explicit ? 
+                        ${track.explicit ?
                             '<span class="badge bg-warning text-dark ms-2">Explicit</span>' : ''}
                     </div>
                 `).join('');
@@ -196,10 +196,10 @@
                     method: 'POST'
                 });
                 const result = await response.json();
-                
+
                 const conversionDiv = document.getElementById('conversion-result');
                 conversionDiv.classList.remove('hidden');
-                
+
                 document.getElementById('conversion-details').innerHTML = `
                     <div class="alert alert-success mb-3">
                         <h4 class="alert-heading">Conversion Complete!</h4>

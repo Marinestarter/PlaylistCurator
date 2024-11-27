@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from requests import Request, post
 from rest_framework.views import APIView
 
@@ -11,7 +11,7 @@ def spotify_interface(request):
     # This will be your main interface view
     if not is_spotify_authenticated(request.session.session_key):
         return redirect('spotify-auth')
-    return JsonResponse({"status": "authenticated"})
+    return render(request,'index.html')
 
 
 class AuthenticationURL(APIView):
@@ -69,7 +69,7 @@ def spotify_redirect(request, format=None):
     )
 
     #create a redirect URL to the current song details
-    redirect_url = "/api/docs"
+    redirect_url = "/spotify/"
     return HttpResponseRedirect(redirect_url)
 
     # Check whether the user has been authenticated by Spotify

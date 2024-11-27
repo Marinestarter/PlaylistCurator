@@ -134,7 +134,7 @@ class SpotifyService:
             'potential_matches': potential_matches,
         }
 
-    def convert_playlist(self, playlist_id: str, to_clean: bool = True) -> Dict:
+    def convert_playlist(self, playlist_id: str) -> Dict:
         try:
             self.initialize_client()
             # Get original playlist
