@@ -1,0 +1,14 @@
+{% for playlist in playlists %}
+<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+     hx-get="/api/playlists/{{ playlist.id }}/tracks"
+     hx-target="#track-list"
+     hx-trigger="click">
+    <h3 class="playlistText mb-0">{{ playlist.name }}</h3>
+    <a href="{{ playlist.external_urls.spotify }}"
+       class="btn btn-sm btn-outline-success"
+       target="_blank"
+       hx-disable="true">
+        Open in Spotify
+    </a>
+</div>
+{% endfor %}

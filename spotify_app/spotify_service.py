@@ -43,22 +43,53 @@ class SpotifyService:
         try:
             self.initialize_client()
             results = self._spotify.current_user_playlists()
+
+            if not results:
+                logger.error("No results returned from Spotify API")
+                return []
+
+            if 'items' not in results:
+                logger.error(f"Unexpected API response format: {results}")
+                return []
+
             playlists = []
 
-            # Process each playlist in the results
-            for playlist in results['items']:  # Access 'items' from results
-                playlist_data = {
-                    'id': playlist['id'],
-                    'name': playlist['name'],
-                    'external_urls': playlist['external_urls'],
-                    'tracks': None  # Matches the Optional[List[TrackResponse]] in schema
-                }
-                playlists.append(playlist_data)
+            for playlist in results['items']:
+                if not playlist:
+                    logger.warning("Encountered None playlist in results")
+                    continue
+
+                try:
+                    playlist_data = {
+                        'id': playlist['id'],
+                        'name': playlist['name'],
+                        'external_urls': playlist['external_urls'],
+                        'tracks': None
+                    }
+                    playlists.append(playlist_data)
+                except KeyError as ke:
+                    logger.error(f"Missing key in playlist data: {ke}")
+                    logger.debug(f"Playlist object: {playlist}")
+                    continue
+                except Exception as e:
+                    logger.error(f"Error processing playlist: {e}")
+                    continue
 
             return playlists
+
         except Exception as e:
-            logger.error(f"Failed to fetch playlists: {e}")
+            logger.error(f"Failed to fetch playlists: {e}", exc_info=True)
             raise
+
+    def contain_same_artists(self, first: Dict, second: Dict) -> bool:
+        """Check if two tracks have the same artists"""
+        if len(first['artists']) != len(second['artists']):
+            return False
+
+        for i in range(len(first['artists'])):
+            if first['artists'][i]['name'] != second['artists'][i]['name']:
+                return False
+        return True
 
     def get_playlist_tracks(self, playlist_id: str) -> List[Dict]:
         try:
@@ -134,7 +165,7 @@ class SpotifyService:
             'potential_matches': potential_matches,
         }
 
-    def convert_playlist(self, playlist_id: str) -> Dict:
+    def convert_playlist(self, playlist_id: str, to_clean: bool = True) -> Dict:
         try:
             self.initialize_client()
             # Get original playlist
@@ -147,7 +178,7 @@ class SpotifyService:
             clean_tracks_uris = []
             tracks_to_convert = []
 
-            #iterates each track, adding explicit to tracks_to_convert list
+            # iterates each track, adding explicit to tracks_to_convert list
             for track in tracks:
                 if not track['explicit']:
                     clean_tracks_uris.append(track['uri'])
@@ -223,6 +254,5 @@ class SpotifyService:
                 return "successfully added!"
         except Exception as e:
             logging.error(f"Failed to add songs: {e}")
-
 
 
