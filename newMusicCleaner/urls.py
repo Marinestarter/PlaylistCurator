@@ -22,6 +22,7 @@ from spotify_app.api import api
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', api.urls),
-    path('spotify/', include('spotify_app.urls'))
+    path('spotify/', include('spotify_app.urls')),
+    path('youtube/', include('youtube_app.urls'))
 
 ]

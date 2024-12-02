@@ -12,12 +12,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import environ
 from pathlib import Path
 import os
+
 env = environ.Env()
 environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -29,7 +29,6 @@ SECRET_KEY = 'django-insecure-q-yd1w=r!7^@75i66xpuavf&bnpsp-0t&kqi#3@#5k46kvaz*=
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -81,7 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'newMusicCleaner.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -91,7 +89,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -111,7 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -122,7 +118,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -144,11 +139,15 @@ SP_CLIENT_SECRET = env('SP_CLIENT_SECRET')
 SP_REDIRECT_URI = env('SP_REDIRECT_URI')
 
 #
+YOUTUBE_CLIENT_ID = env('YOUTUBE_CLIENT_ID')
+YOUTUBE_CLIENT_SECRET = env('YOUTUBE_CLIENT_SECRET')
+YOUTUBE_REDIRECT_URI = env('YOUTUBE_REDIRECT_URI')
+YOUTUBE_SCOPES = scopes = 'https://www.googleapis.com/auth/youtube.force-ssl'
 
+#
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
-        'LOCATION':  '127.0.0.1:11211',
+        'LOCATION': '127.0.0.1:11211',
     }
 }
-
