@@ -2,221 +2,53 @@
 {% block title %}Spotify Converter{% endblock %}
 
 {% block body %}
-    <section class="all">
-        <section class="one">
-            <div class="rect" id="one"></div>
-            <div class="rect" id="two"></div>
-            <div class="rect" id="three"></div>
-            <div class="rect" id="four"></div>
-            <div class="rect" id="five"></div>
-        </section>
-
-        <section class="two">
-            <div class="container">
-                <div class="row mx-2 gap-4">
-                    <div class="card col pt-1 pb-1 mb-4">
-                        <div id="user-info">
-                            <h2 class="h4">User Information</h2>
-                            <h3 class="text-muted">Loading user info...</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mr-2">
-                    <div class="card col pr-4">
-                        <div id="playlists">
-                            <h2 >Your Playlists</h2>
-                            <hr>
-                            <div id="playlist-list" class="playlist_table"></div>
-                        </div>
-                    </div>
-
-                    <div class="card col gap-4">
-
-                        <div id="tracks" class="hidden">
-                            <h2>Playlist Tracks</h2>
-                            <button class="btn btn-primary" onclick="convertCurrentPlaylist()">Convert to Clean</button>
-                            <div id="track-list" class="list-group"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<section class="all">
+    <section class="one">
+        <div class="rect" id="one"></div>
+        <div class="rect" id="two"></div>
+        <div class="rect" id="three"></div>
+        <div class="rect" id="four"></div>
+        <div class="rect" id="five"></div>
     </section>
-{% endblock %}
 
-
-
-
-
-
-
-{% block js %}
-    let currentPlaylistId = null;
-
-    async function fetchUserInfo() {
-    try {
-    const response = await fetch('/api/user');
-    const data = await response.json();
-    document.getElementById('user-info').innerHTML = `
-    <h2>Welcome, ${data.display_name}</h2>
-    <p class="text-muted">Spotify ID: ${data.id}</p>
-    `;
-    } catch (error) {
-    console.error('Error fetching user info:', error);
-    }
-    }
-
-    async function fetchPlaylists() {
-    try {
-    const response = await fetch('/api/playlists');
-    const playlists = await response.json();
-    const playlistList = document.getElementById('playlist-list');
-
-    const limitedPlaylists = playlists.slice(0, 60);
-
-    playlistList.innerHTML = `
-    <div data-bs-spy="scroll"
-         data-bs-target="#navbar"
-         data-bs-offset="0" 
-         class=" list-group scrollable-playlist"
-         style="max-height: 70vh; overflow-y: auto;">
-        ${limitedPlaylists.map(playlist => `
-        <div class="playlists list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-             onclick="showTracks('${playlist.id}')">
-            <h5 class="playlistText mb-0">${playlist.name}</h5>
-            <a href="${playlist.external_urls.spotify}"
-               class="spotify_button btn-sm"
-               target="_blank"
-               onclick="event.stopPropagation()">
-                Open in Spotify
-            </a>
-        </div>
-        `).join('')}
-    </div>
-    `;
-
-    // Initialize scrollspy
-    const scrollSpyElement = document.querySelector('[data-bs-spy="scroll"]');
-    new bootstrap.ScrollSpy(scrollSpyElement);
-
-    } catch (error) {
-    console.error('Error fetching playlists:', error);
-    }
-    }
-
-   async function showTracks(playlistId) {
-    try {
-        // Show loading state first
-        const trackList = document.getElementById('track-list');
-        trackList.innerHTML = `
-            <div class="placeholder-glow">
-                <span class="placeholder col-12"></span>
-                <span class="placeholder col-12"></span>
-                <span class="placeholder col-12"></span>
-            </div>
-        `;
-        
-        document.getElementById('tracks').classList.remove('hidden');
-        
-        const response = await fetch(`/api/playlists/${playlistId}/tracks`);
-        const tracks = await response.json();
-
-        // Limit to 60 tracks and create the tracks list
-        const limitedTracks = tracks.slice(0, 60);
-        
-        trackList.innerHTML = `
-            <div data-bs-spy="scroll"
-                 data-bs-target="#navbar"
-                 data-bs-offset="0" 
-                 class="list-group scrollable-tracks"
-                 style="max-height: 70vh; overflow-y: auto;">
-                ${limitedTracks.map(track => `
-                    <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center ${track.explicit ? 'bg-light' : ''}">
-                        <div>
-                            <h5 class="mb-1">${track.name}</h5>
-                            <p class="mb-1 text-muted">${track.artists.map(artist => artist.name).join(', ')}</p>
-                        </div>
-                        ${track.explicit ? '<span class="badge bg-warning text-dark">Explicit</span>' : ''}
+    <section class="two">
+        <div class="container">
+            <div class="row">
+                <div class="userInfo card col pt-2 pb-2 pr-3 mb-5 mt-4">
+                    <div id="user-info">
+                        <h2>Welcome, {{ user.display_name }}</h2>
+                        <p class="text-muted">Spotify ID: {{ user.id }}</p>
                     </div>
-                `).join('')}
-            </div>
-        `;
-
-        // Initialize scrollspy
-        const scrollSpyElement = document.querySelector('[data-bs-spy="scroll"]');
-        new bootstrap.ScrollSpy(scrollSpyElement);
-
-    } catch (error) {
-        console.error('Error fetching tracks:', error);
-        trackList.innerHTML = `
-            <div class="alert alert-danger">
-                Error loading tracks. Please try again.
-            </div>
-        `;
-    }
-}
-    
-    async function convertCurrentPlaylist() {
-    if (!currentPlaylistId) return;
-
-    try {
-    const response = await fetch(`/api/playlist/${currentPlaylistId}/convert?to_clean=true`, {
-    method: 'POST'
-    });
-    const result = await response.json();
-
-    const conversionDiv = document.getElementById('conversion-result');
-    conversionDiv.classList.remove('hidden');
-
-    document.getElementById('conversion-details').innerHTML = `
-    <div class="alert alert-success mb-3">
-        <h4 class="alert-heading">Conversion Complete!</h4>
-        <p class="mb-0">New Playlist ID: ${result.playlist_id}</p>
-    </div>
-    <div class="row mb-3">
-        <div class="col-6">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">${result.num_original_clean}</h5>
-                    <p class="card-text">Original Clean Tracks</p>
                 </div>
             </div>
-        </div>
-        <div class="col-6">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">${result.num_clean_found}</h5>
-                    <p class="card-text">Clean Matches Found</p>
+
+            <div class="row mt-3">
+                <div class="card col">
+                    <div id="playlists">
+                        <h1>Your Playlists</h1>
+                        <hr>
+                        <div id="playlist-list" class="playlist_table">
+                            {% include 'components/playlist_list.html' %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gap_in_between"></div>
+
+                <div class="card col">
+                    <div id="tracks">
+                        <div class="row">
+                            <h1 class="mb-0">Playlist Tracks</h1>
+                        </div>
+                        <hr>
+                        <div id="track-list" class="list-group"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <h3 class="h5 mb-3">Missing Songs:</h3>
-    <div class="list-group">
-        ${result.num_still_missing.map(song => `
-        <div class="list-group-item">
-            <div class="d-flex justify-content-between align-items-center">
-                <span>${song.name}</span>
-                <a href="${song.query_url}"
-                   class="btn btn-sm btn-outline-primary"
-                   target="_blank">
-                    Search on Spotify
-                </a>
-            </div>
-        </div>
-        `).join('')}
-    </div>
-    `;
-    } catch (error) {
-    console.error('Error converting playlist:', error);
-    }
-    }
 
-    // Initial load
-    fetchUserInfo();
-    fetchPlaylists();
+            <div id="conversion-result" class="mt-4"></div>
+        </div>
+    </section>
+</section>
+
 {% endblock %}
-
-
-</html>

@@ -1,0 +1,88 @@
+<!-- templates/components/conversion_results.html -->
+<div class="alert alert-success mb-3">
+    <h4 class="alert-heading">Conversion Complete!</h4>
+    <p class="mb-0">New Playlist: <a href="https://open.spotify.com/playlist/{{ result.playlist_id }}" target="_blank">https://open.spotify.com/playlist/{{ result.playlist_id }}</a>
+    </p>
+</div>
+
+<!-- Stats Cards -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6>Original Clean</h6>
+                <p class="mb-0">{{ result.num_original_clean }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6>Clean Matches Found</h6>
+                <p class="mb-0">{{ result.num_clean_found }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6>Songs Missing</h6>
+                <p class="mb-0">{{ result.num_still_missing }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if result.potential_matches %}
+    <div class="col">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-white" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#potentialCollapse">
+                            Potential Matches ({{ result.potential_matches|length }})
+                        </button>
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="potentialCollapse" class="accordion-collapse collapse bg-white" data-bs-parent="#conversionAccordion">
+        <div class="accordion-body p-0">
+            <form id="matchesForm"
+                  hx-post="/api/playlist/{{ result.playlist_id }}/additionalSongs"
+                  hx-target="#conversion-result">
+                {% csrf_token %}
+                {% for song_name, matches in result.potential_matches.items %}
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            <h6 class="mb-2">{{ song_name }}</h6>
+                            <div class="ms-3"> <!--Indents the songs--->
+                                {% for match in matches %}
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox"
+                                               name="song_uris"
+                                               id="match_{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
+                                               value="{{ match.uri }}">
+                                        <label class="form-check-label"
+                                               for="match_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
+                                            <div>{{ match.name }} - {{ match.artists }}</div>
+                                            <small class="text-muted">
+                                                <a href="{{ match.link }}" target="_blank">Listen on Spotify</a>
+                                            </small>
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="text-end p-3">
+                    <button type="submit" class="btn btn-primary">Add Selected Songs</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+{% endif %}
