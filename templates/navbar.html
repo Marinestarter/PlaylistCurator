@@ -1,3 +1,4 @@
+<!-- templates/navbar.html -->
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
@@ -8,13 +9,17 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <div class="searchBar">
-                <input type="text" placeholder="SEARCH..">
-            </div>
+        <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 w-75 justify-content-evenly">
+                <li>
+                    <form class="search-form searchBar">
+                        <input type="search" class=" searcBar form-control search-input" placeholder="SEARCH.."
+                               aria-label="Search">
+                    </form>
+                </li>
+
                 <li class="nav-item">
-                    <a class="nav-link"  href="#">Home</a>
+                    <a class="nav-link" href="#">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Spotify Cleaner</a>
@@ -26,7 +31,6 @@
                     <a class="nav-link" href="#">Sign In</a>
                 </li>
             </ul>
-
         </div>
     </div>
 </nav>

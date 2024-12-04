@@ -22,7 +22,7 @@ p {
     padding: 1vw;
     display: flex;
     justify-content: center;
-    text-decoration: red    ;
+    text-decoration: red;
     align-items: center;
     background-color: lightcoral !important;
     /*gap: 20px;*/
@@ -73,11 +73,7 @@ nav a:hover{
     color: #ffffff
 }
 
-section.all {
-    width: 100vw;
-    display: flex;
-    flex-wrap: wrap;
-}
+
 
 section.one {
     width: 100vw;
@@ -137,6 +133,11 @@ section.two {
 }
 
 
+div.gap_in_between {
+    width: 5vw;
+}
+
+
 
 
 
@@ -157,7 +158,17 @@ border-radius: 4px;
 .scrollable-playlist::-webkit-scrollbar-thumb:hover {
 background: lightcoral;
 }
+.convert_button{
+    padding: 0.5rem 1rem;
+    background-color: lightcoral;
+    color:white;
+    border-color: lightcoral;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
 
+}
 
 .spotify_button {
 padding: 0.5rem 1rem;
@@ -170,21 +181,65 @@ white-space: nowrap;
 }
 
 
-.scrollable-playlist::-webkit-scrollbar {
+.scrollable-list::-webkit-scrollbar {
 width: 8px;
 }
 
-.scrollable-playlist::-webkit-scrollbar-track {
+.scrollable-list::-webkit-scrollbar-track {
 background: #f1f1f1;
 border-radius: 4px;
 }
 
-.scrollable-playlist::-webkit-scrollbar-thumb {
-background: lightcoral;  /* Spotify green */
+.scrollable-list::-webkit-scrollbar-thumb {
+background: lightcoral;
 border-radius: 4px;
 }
 
-.scrollable-playlist::-webkit-scrollbar-thumb:hover {
+.scrollable-list::-webkit-scrollbar-thumb:hover {
 background: lightcoral;
 }
+
+.searchBar {
+    position: relative;
+    width: 300px; /* Fixed container width */
+    margin: 0 20px;
+}
+
+.searchBar input {
+    width: 100%;
+    padding: 8px 15px;
+    border: 2px solid #ddd;
+    border-radius: 20px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.searchBar input:focus {
+    width: 100%;
+    outline: none;
+    border-color: #666;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .searchBar {
+        width: 100%;
+        margin: 10px 0;
+    }
+}
+
+    .accordion-button:not(.collapsed) {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+    .accordion-button:focus {
+        box-shadow: none;
+    }
+    .list-group-item:first-child {
+        border-top: none;
+    }
+    .form-check {
+        padding-left: 2rem;
+    }
 

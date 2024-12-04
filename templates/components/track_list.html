@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<!-- templates/components/track_list.html -->
+<button class="convert_button col text-center mb-3"
+        hx-post="{% url 'convert-playlist' playlist_id %}"
+        hx-target="#conversion-result">
+    Convert to Clean
+</button>
+<div data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="0" class="list-group scrollable-list" style="max-height: 70vh; overflow-y: auto;">
+    {% for track in tracks %}
+    <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {% if track.explicit %}bg-light{% endif %}">
+        <div>
+            <h5 class="mb-1">{{ track.name }}</h5>
+            <p class="mb-1 text-muted">
+                {% for artist in track.artists %}
+                    {% if not forloop.first %}, {% endif %}
+                    {{ artist.name }}
+                {% endfor %}
+            </p>
+        </div>
+        {% if track.explicit %}
+        <span class="badge bg-warning text-dark">Explicit</span>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>

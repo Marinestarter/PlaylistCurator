@@ -1,14 +1,13 @@
-{% for playlist in playlists %}
-<div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-     hx-get="/api/playlists/{{ playlist.id }}/tracks"
-     hx-target="#track-list"
-     hx-trigger="click">
-    <h3 class="playlistText mb-0">{{ playlist.name }}</h3>
-    <a href="{{ playlist.external_urls.spotify }}"
-       class="btn btn-sm btn-outline-success"
-       target="_blank"
-       hx-disable="true">
-        Open in Spotify
-    </a>
+<div data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="0" class="scrollable-list list-group mb-4" style="max-height: 70vh; overflow-y: auto;">
+    {% for playlist in playlists %}
+    <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+         hx-get="{% url 'playlist-tracks' playlist.id %}"
+         hx-target="#track-list"
+         hx-trigger="click">
+        <h5 class="playlistText mb-0">{{ playlist.name }}</h5>
+        <a href="{{ playlist.external_urls.spotify }}" class="spotify_button btn-sm" target="_blank" onclick="event.stopPropagation()">
+            Open in Spotify
+        </a>
+    </div>
+    {% endfor %}
 </div>
-{% endfor %}

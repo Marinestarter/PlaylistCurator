@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-from ninja import NinjaAPI
+from ninja import NinjaAPI, Form
 from typing import List
 from spotify_app.services.schemas import (
     PlaylistResponse,
@@ -67,7 +67,11 @@ def convert_playlist(request, playlist_id: str) -> PlaylistConversionResponse:
 
 
 @api.post("/playlist/{playlist_id}/additionalSongs")
-def missing_songs(request, playlist_id: str, song_uris: List[str]) -> str:
+def missing_songs(
+    request,
+    playlist_id: str,
+    song_uris: List[str] = Form(...) # Add Form(...) here
+) -> str:
     if not request.session.session_key:
         request.session.create()
     spotify_service = SpotifyService(request.session.session_key)
