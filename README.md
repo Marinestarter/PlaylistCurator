@@ -1,4 +1,4 @@
-#Music Platform Playlist Curator
+#Music Platform Playlist Curator#
 A Django web application that allows users to convert explicit playlists to clean versions across Spotify and YouTube Music platforms. The application provides an intuitive interface for managing and converting playlists while maintaining high-quality matches for clean versions of songs.
 Features
 
